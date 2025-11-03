@@ -1,0 +1,1204 @@
+/* src/index.css — Tailwind + custom theme + animations (rich, muted professional palette) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme variables (muted, professional) */
+:root {
+  --bg: #F7F9FB;
+  --card: #FFFFFF;
+  --text: #0B1520;
+  --muted: #4B5563;
+  --accent: #1E6FEB;
+  --accent-2: #00A884;
+  --glass: rgba(15,23,36,0.06);
+  --site-max: 1100px;
+  --radius: 14px;
+}
+
+/* Dark mode variables (kept minimal) */
+:root.dark {
+  --bg: #071023;
+  --card: #071B2B;
+  --text: #E6F0FA;
+  --muted: #9FB0C8;
+  --glass: rgba(255,255,255,0.04);
+}
+
+/* Base styles */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* container helper */
+.container-site {
+  max-width: var(--site-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* subtle glass card */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass);
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
+}
+
+/* hero visuals */
+.hero-outer {
+  min-height: 74vh;
+  display: flex;
+  align-items: center;
+  padding: 56px 0;
+}
+.hero-left {
+  flex: 1;
+  padding-right: 32px;
+}
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* animated line (SVG) container */
+.animated-line {
+  width: 36px;
+  height: 200px;
+  margin-right: 18px;
+}
+.line-path {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* hero heading */
+.h-hero {
+  font-size: clamp(28px, 5.2vw, 48px);
+  line-height: 1.02;
+  font-weight: 800;
+  margin: 0 0 12px 0;
+}
+.lead {
+  color: var(--muted);
+  font-size: 1.06rem;
+  margin: 0 0 18px 0;
+}
+
+/* animated image card */
+.preview-card {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 12px;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+.preview-card:hover {
+  transform: translateY(-8px) rotate(-0.6deg);
+  box-shadow: 0 20px 50px rgba(11, 21, 32, 0.12);
+}
+
+/* subtle floating motion for image — CSS keyframe */
+@keyframes floatY {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+.preview-float {
+  animation: floatY 5.6s ease-in-out infinite;
+}
+
+/* CTA group — plain CSS replacement for @apply */
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* roughly tailwind gap-3 */
+  padding: 0.5rem 1rem; /* approx px-4 py-2 */
+  border-radius: 0.75rem; /* rounded-lg */
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--accent);
+  box-shadow: 0 10px 30px rgba(30, 111, 235, 0.12);
+  text-decoration: none;
+}
+.cta-primary:hover {
+  transform: translateY(-2px);
+  transition: transform 0.18s ease;
+}
+
+.cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem; /* approx px-3 py-2 */
+  border-radius: 0.75rem;
+  border: 1px solid var(--glass);
+  color: var(--muted);
+  background: transparent;
+  text-decoration: none;
+}
+.cta-ghost:hover {
+  background: rgba(0, 0, 0, 0.02);
+  transform: translateY(-1px);
+  transition: all 0.18s ease;
+}
+
+/* ---------- PhotoCard styles (animated, glowing, responsive) ---------- */
+
+/* wrapper keeps layout stable and provides perspective for hover tilt */
+.photo-card-wrapper {
+  position: relative;
+  width: 320px;
+  max-width: 42vw;
+  min-width: 220px;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* actual card */
+.photo-card {
+  width: 320px;
+  height: 420px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.4)
+  );
+  box-shadow: 0 18px 40px rgba(11, 21, 32, 0.12);
+  transform: translateY(0);
+  transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    box-shadow 320ms ease, filter 320ms ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: block;
+  position: relative;
+  outline: none;
+}
+
+/* image fills the card */
+.photo-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  -webkit-user-drag: none;
+}
+
+/* subtle floating motion */
+.photo-card-wrapper .photo-card {
+  animation: floatY 6.2s ease-in-out infinite;
+}
+
+/* hover / focus interactions (desktop) */
+.photo-card:hover,
+.photo-card:focus {
+  transform: translateY(-10px) rotate(-0.6deg) scale(1.02);
+  box-shadow: 0 30px 80px rgba(11, 21, 32, 0.22);
+  filter: saturate(1.03);
+}
+
+/* glowing rings */
+.photo-card-rings {
+  position: absolute;
+  inset: auto;
+  width: 420px;
+  height: 420px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(
+      closest-side,
+      rgba(30, 111, 235, 0.12),
+      transparent 35%
+    ),
+    radial-gradient(closest-side, rgba(0, 168, 132, 0.06), transparent 60%);
+  filter: blur(18px);
+  opacity: 0;
+  transition: opacity 280ms ease, transform 280ms ease;
+}
+
+/* on hover/focus, reveal glow */
+.photo-card:hover + .photo-card-rings,
+.photo-card:focus + .photo-card-rings,
+.photo-card-wrapper:hover .photo-card-rings,
+.photo-card-wrapper:focus-within .photo-card-rings {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* mobile adjustments */
+@media (max-width: 900px) {
+  .photo-card-wrapper {
+    width: 260px;
+    max-width: 72vw;
+  }
+  .photo-card {
+    width: 260px;
+    height: 360px;
+    border-radius: 12px;
+  }
+  .photo-card-rings {
+    width: 340px;
+    height: 340px;
+    filter: blur(14px);
+  }
+}
+
+/* projects grid spacing helper */
+.section-gap {
+  padding: 48px 0;
+}
+
+/* responsive adjustments */
+@media (max-width: 900px) {
+  .hero-outer {
+    padding: 36px 0;
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+  .hero-left {
+    padding-right: 0;
+    text-align: center;
+  }
+  .hero-right {
+    width: 100%;
+  }
+  .animated-line {
+    display: none;
+  }
+}
+
+/* reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .preview-float,
+  .cta-primary,
+  .cta-ghost,
+  .photo-card-wrapper .photo-card {
+    animation: none;
+    transition: none;
+  }
+  .photo-card-rings {
+    transition: none;
+  }
+}
+
+/* loader safe state (if Loader is present) */
+.loader-fallback {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ----------------- Branding & Sidebar helpers (NEW) ----------------- */
+
+/* brand wrap (logo + text) */
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* brand logo container */
+.brand-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  box-shadow: 0 6px 20px rgba(2, 6, 23, 0.04);
+}
+.brand-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* mobile brand (topbar) */
+.mobile-brand {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* sidebar specific tweaks */
+.sidebar {
+  /* spacing controlled by component markup; this keeps CSS available for overrides */
+}
+.sidebar nav a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+}
+.sidebar nav a:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* improved dark toggle look */
+.dark-toggle {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--glass);
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* header & mobile topbar spacing helper */
+.header-placeholder {
+  height: 64px; /* ensure main content has top offset on mobile if needed */
+}
+
+/* small utility for hiding on desktop or mobile if needed */
+.hide-on-md {
+  display: block;
+}
+@media (min-width: 768px) {
+  .hide-on-md {
+    display: none;
+  }
+}
+
+/* accessibility: focus visible */
+:focus {
+  outline: 3px solid rgba(30, 111, 235, 0.12);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* small responsive tweak for the main content when sidebar present */
+.main-with-sidebar {
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .main-with-sidebar {
+    padding-left: 18rem; /* ~72 (sidebar width) */
+  }
+}
+
+/* favicon image helper (if used inside components) */
+.brand-favicon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* final small helper for consistent small text */
+.caption-sm {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* ---------- Animated Button system ---------- */
+
+.animated-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.9rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  overflow: visible;
+  transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s ease, filter .18s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* content layer */
+.animated-btn__content { position: relative; z-index: 3; pointer-events: none; }
+
+/* decorative effect layer (animated) */
+.animated-btn__effect {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  transition: opacity .25s ease;
+}
+
+/* hover/focus lift */
+.animated-btn:hover, .animated-btn:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 45px rgba(2,6,23,0.12);
+  outline: none;
+}
+
+/* FLAME variant */
+.animated-flame {
+  color: white;
+  background: linear-gradient(180deg, #ff6a00, #ff3d00);
+}
+.animated-flame .animated-btn__effect {
+  background:
+    radial-gradient(40% 80% at 10% 20%, rgba(255,200,120,0.18), transparent 35%),
+    radial-gradient(30% 60% at 90% 80%, rgba(255,80,0,0.08), transparent 35%);
+  box-shadow: 0 6px 30px rgba(255,90,30,0.12), inset 0 -6px 18px rgba(0,0,0,0.06);
+}
+.animated-flame:hover .animated-btn__effect {
+  filter: blur(6px) saturate(1.1);
+  transform: scale(1.04);
+}
+
+/* subtle ember animation for flame */
+@keyframes ember {
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-6px) scale(1.03); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 0.7; }
+}
+
+/* RAIN variant */
+.animated-rain {
+  color: #0b2240;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(240,248,255,0.7));
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.animated-rain .animated-btn__effect {
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow: inset 0 -8px 24px rgba(0,0,0,0.04);
+}
+/* raindrop micro-lines overlay (pseudo) */
+.animated-rain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image: linear-gradient(transparent 30%, rgba(255,255,255,0.08) 31%, rgba(255,255,255,0.03) 32%);
+  background-size: 8px 12px;
+  opacity: 0.28;
+  pointer-events: none;
+}
+.animated-rain:hover::after { opacity: 0.5; transform: translateY(-2px); }
+
+/* NATURE variant */
+.animated-nature {
+  color: white;
+  background: linear-gradient(180deg, #06A77D, #00875A);
+}
+.animated-nature .animated-btn__effect {
+  background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 12%),
+              radial-gradient(circle at 80% 80%, rgba(0,0,0,0.06), transparent 15%);
+  box-shadow: 0 10px 30px rgba(6,120,90,0.12);
+}
+.animated-nature:hover .animated-btn__effect {
+  transform: scale(1.03);
+  filter: saturate(1.08);
+}
+
+/* GLASS variant (neutral) */
+.animated-glass {
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.65));
+  border: 1px solid var(--glass);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+}
+.animated-glass .animated-btn__effect {
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.02));
+  mix-blend-mode: normal;
+}
+
+/* NEON variant (futuristic) */
+.animated-neon {
+  color: #eaf6ff;
+  background: linear-gradient(180deg, rgba(30,111,235,0.16), rgba(30,111,235,0.12));
+  box-shadow: 0 8px 28px rgba(30,111,235,0.08);
+}
+.animated-neon .animated-btn__effect {
+  background: radial-gradient(circle at 10% 10%, rgba(30,111,235,0.18), transparent 12%),
+              radial-gradient(circle at 90% 90%, rgba(0,168,132,0.08), transparent 18%);
+  filter: blur(6px) saturate(1.1);
+  transform: translateZ(0);
+}
+.animated-neon:hover { box-shadow: 0 18px 60px rgba(30,111,235,0.22), 0 0 30px rgba(30,111,235,0.12) }
+
+/* small responsive behavior for CTA row */
+@media (max-width: 720px) {
+  .cta-row { overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
+  .animated-btn { flex: 0 0 auto; min-width: 120px; }
+}
+
+/* focus/keyboard visible */
+.animated-btn:focus { outline: 3px solid rgba(30,111,235,0.12); outline-offset: 4px; }
+
+/* accessible reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animated-btn { transition: none; }
+  .animated-btn .animated-btn__effect { transition: none; animation: none; }
+}
+
+/* ----------------- Layout & z-index fixes (append at EOF) ----------------- */
+
+/* Ensure main content is offset by sidebar on desktop and topbar on mobile */
+.main-with-sidebar {
+  padding-top: 0;
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .main-with-sidebar { padding-left: 18rem; } /* desktop sidebar width offset */
+}
+@media (max-width: 767px) {
+  .main-with-sidebar { padding-top: 4rem; } /* mobile topbar height offset */
+}
+
+/* Ensure sidebar links don't visually overlap hero content */
+.sidebar { z-index: 40; }
+
+/* header placeholder if you use it */
+.header-placeholder { height: 64px; }
+
+/* layer utilities used by drawer/modal */
+.z-60 { z-index: 60; }
+.z-70 { z-index: 70; }
+
+/* tweak nav anchors for nicer look and prevent overlap */
+.sidebar nav a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+  transition: background .18s ease, color .18s ease, transform .12s ease;
+}
+.sidebar nav a:hover {
+  background: rgba(0,0,0,0.03);
+  transform: translateX(4px);
+}
+
+/* Ensure mobile menu dropdown overlays content cleanly */
+@media (max-width: 767px) {
+  header.md\\:hidden { z-index: 55; } /* keep topbar above main content */
+}
+
+/* Small safety: make sure focus outlines appear above decorations */
+:focus { z-index: 90; }
+/* ---------- Drawer + tech-tree + small layout fixes (append at EOF) ---------- */
+
+/* Connect drawer animation & sizing */
+.connect-drawer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 420px;
+  z-index: 70;
+  transform: translateX(0);
+  animation: drawerIn .28s cubic-bezier(.2,.9,.2,1);
+}
+@keyframes drawerIn {
+  from { transform: translateX(18%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+.drawer-inner { height: 100%; display:flex; flex-direction:column; }
+
+/* Tech-tree styles */
+.tech-tree { position: relative; overflow: visible; }
+.tech-root {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
+}
+.tech-bubble {
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.8));
+  box-shadow: 0 10px 30px rgba(2,6,23,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--text);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  cursor: default;
+  position: relative;
+}
+.tech-bubble:hover, .tech-bubble:focus {
+  transform: translateY(-8px) scale(1.06);
+  box-shadow: 0 28px 60px rgba(2,6,23,0.12);
+  filter: saturate(1.06);
+  z-index: 50;
+}
+.tech-bubble__label { pointer-events: none; }
+
+/* Responsive bubbles */
+@media (max-width: 900px) {
+  .tech-bubble { width: 64px; height: 64px; font-size: 13px; }
+  .tech-root { gap: 12px; }
+}
+
+/* small layout fixes */
+.main-with-sidebar { padding-top: 0; padding-left: 0; }
+@media (min-width: 768px) { .main-with-sidebar { padding-left: 18rem; } }
+@media (max-width: 767px) { .main-with-sidebar { padding-top: 4rem; } }
+
+/* ensure drawer and modals are layered */
+.z-60 { z-index: 60; }
+.z-70 { z-index: 70; }
+/* ---------- Tech infographic (radial) - append at EOF ---------- */
+
+.tech-infographic {
+  position: relative;
+  padding: 36px;
+  overflow: visible;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* center hub */
+.tech-center {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--accent), #0b57d6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 50px rgba(2,6,23,0.12);
+  z-index: 20;
+}
+.tech-center__logo img { width: 48px; height: 48px; object-fit: contain; border-radius: 8px; }
+.tech-center__label {
+  margin-top: 8px;
+  color: white;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* container for radial items */
+.tech-items {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  max-width: 900px;
+  margin-top: 30px; /* small offset for heading */
+}
+
+/* base item */
+.tech-item {
+  position: absolute;
+  width: 260px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  transform-origin: center;
+  transition: transform .22s cubic-bezier(.2,.9,.2,1), box-shadow .22s ease;
+  cursor: default;
+  z-index: 10;
+  outline: none;
+}
+.tech-item:focus { transform: translateY(-6px) scale(1.02); box-shadow: 0 22px 50px rgba(2,6,23,0.12); }
+
+/* small bubble with icon */
+.tech-item__bubble {
+  width: 72px;
+  height: 72px;
+  min-width: 72px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff, #f7f9fb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(2,6,23,0.04);
+  transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+}
+.tech-item__icon { width: 44px; height: 44px; object-fit: contain; }
+
+/* content card */
+.tech-item__content {
+  background: rgba(255,255,255,0.98);
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(2,6,23,0.04);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.04);
+}
+.tech-item__title { font-weight: 700; margin-bottom: 6px; }
+.tech-item__desc { font-size: 0.9rem; color: var(--muted); max-width: 170px; }
+
+/* hover glow: bubble and small accent line */
+.tech-item:hover .tech-item__bubble,
+.tech-item:focus .tech-item__bubble {
+  transform: translateY(-6px) scale(1.06);
+  box-shadow: 0 24px 60px var(--accent, rgba(30,111,235,0.12));
+  filter: saturate(1.05);
+}
+
+/* connecting line pseudo-element */
+.tech-item::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  z-index: -5;
+}
+
+/* Positioning for 6 items around circle.
+   We place them via percentages to create the infographic look.
+   Adjust offsets if you add more items. */
+.tech-item--1 { left: 50%; top: 4%; transform: translate(-50%, 0); }
+.tech-item--2 { right: 6%; top: 22%; transform: translate(0, 0); }
+.tech-item--3 { right: 6%; top: 62%; transform: translate(0, 0); }
+.tech-item--4 { left: 50%; bottom: 4%; transform: translate(-50%, 0); }
+.tech-item--5 { left: 6%; top: 62%; transform: translate(0, 0); }
+.tech-item--6 { left: 6%; top: 22%; transform: translate(0, 0); }
+
+/* decorative connecting lines from center to item */
+.tech-item--1::after,
+.tech-item--2::after,
+.tech-item--3::after,
+.tech-item--4::after,
+.tech-item--5::after,
+.tech-item--6::after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  background: linear-gradient(90deg, rgba(15,23,36,0.06), rgba(15,23,36,0.02));
+  border-radius: 4px;
+}
+
+/* tailor each ::after to visually connect center -> item */
+.tech-item--1::after { left: calc(50% - 2px); top: 72px; width: 2px; height: calc( (48px) ); transform: translateY(-36px); }
+.tech-item--2::after { left: -40px; top: 22px; width: 40px; height: 2px; transform-origin: left center; }
+.tech-item--3::after { left: -40px; top: 22px; width: 40px; height: 2px; transform-origin: left center; }
+.tech-item--4::after { left: calc(50% - 2px); bottom: 72px; width: 2px; height: calc( (48px) ); transform: translateY(36px); }
+.tech-item--5::after { right: -40px; top: 22px; width: 40px; height: 2px; transform-origin: right center; }
+.tech-item--6::after { right: -40px; top: 22px; width: 40px; height: 2px; transform-origin: right center; }
+
+/* subtle entry animation */
+.tech-infographic .tech-item {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  animation: techFadeIn .5s forwards;
+}
+.tech-infographic .tech-item--1 { animation-delay: 0.06s; }
+.tech-infographic .tech-item--2 { animation-delay: 0.12s; }
+.tech-infographic .tech-item--3 { animation-delay: 0.18s; }
+.tech-infographic .tech-item--4 { animation-delay: 0.24s; }
+.tech-infographic .tech-item--5 { animation-delay: 0.30s; }
+.tech-infographic .tech-item--6 { animation-delay: 0.36s; }
+@keyframes techFadeIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* RESPONSIVE: stack vertically on small screens */
+@media (max-width: 880px) {
+  .tech-items { height: auto; display: flex; flex-direction: column; gap: 12px; align-items: center; padding: 12px 6px; }
+  .tech-item { position: relative; width: calc(100% - 24px); transform: none !important; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; }
+  .tech-item__content { max-width: none; }
+  .tech-center { position: relative; margin-bottom: 12px; transform: none; left: auto; top: auto; }
+}
+
+/* small accessibility tweaks */
+.tech-item { outline: none; }
+/* ---------- Animated headline per-character reveal (append at EOF) ---------- */
+
+/* visually hidden for screen readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* container for the visual characters */
+.animated-headline__visual {
+  display: inline-block;
+  line-height: 1.02;
+  vertical-align: middle;
+}
+
+/* individual characters */
+.hero-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-26px) rotateX(10deg);
+  will-change: transform, opacity;
+  animation-name: dropIn;
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(.15, .9, .25, 1);
+  animation-fill-mode: forwards;
+  white-space: pre;
+  /* animationDelay is set inline via style in the component for precise staggering */
+}
+
+/* keyframe: drop from above with subtle rotate */
+@keyframes dropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-26px) rotateX(10deg) scale(0.98);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(6px) rotateX(0deg) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg) scale(1);
+  }
+}
+
+/* small hover micro-interaction for finished letters */
+.hero-char:hover {
+  transform: translateY(-4px) scale(1.02);
+  transition: transform 160ms ease;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero-char {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+/* -----------------------
+   Card layout & 3D + glow
+   ----------------------- */
+.card-3d {
+  perspective: 1200px;
+}
+
+.glow-card {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+
+  /* ✨ Removed border and inner shadow that looked like an outline */
+  border: none;
+  box-shadow: 0 10px 25px rgba(3, 7, 18, 0.55);
+
+  /* smooth transition for 3D hover */
+  transition: transform 0.45s ease, box-shadow 0.45s ease;
+}
+
+/* glow pseudo-element - only soft aura, no visible edge */
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  z-index: -1;
+  border-radius: 20px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(147, 51, 234, 0.15),
+    rgba(236, 72, 153, 0.12),
+    rgba(0, 0, 0, 0) 70%
+  );
+  filter: blur(40px);
+  opacity: 0.9;
+  transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+/* subtle hover lift + 3D depth */
+.glow-card:hover {
+  transform: translateY(-12px) scale(1.02) rotateX(1deg) rotateY(-1deg);
+  box-shadow: 0 14px 40px rgba(3, 7, 18, 0.7);
+}
+
+.glow-card:hover::before {
+  filter: blur(50px);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Section fade-in */
+#about {
+  animation: fadeInBg 1s ease-in-out;
+}
+@keyframes fadeInBg {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.998);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .glow-card,
+  .glow-card::before {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+/* background canvas container */
+.background-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0; /* keep below app UI which should be z-10 or higher */
+  pointer-events: none; /* allow clicks to pass through */
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* make sure main content is above background */
+.main-with-sidebar,
+.hero-outer,
+.card-3d, /* any card you want above background */
+.sidebar {
+  position: relative;
+  z-index: 10; /* adjust as necessary */
+}
+/* ---------- Projects: desktop two-column layout + image sizing (append at EOF) ---------- */
+
+/* base project card layout: stacked for small screens */
+.project-card {
+  display: block;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.04);
+}
+
+/* media area */
+.project-media {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: linear-gradient(180deg, rgba(30,111,235,0.03), rgba(0,168,132,0.02));
+  overflow: hidden;
+}
+
+/* project image: small, professional, consistent aspect */
+.project-img {
+  display: block;
+  width: 100%;
+  height: 220px;             /* fixed height on desktop for consistent cards */
+  max-height: 220px;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .5s ease;
+}
+
+/* smaller variant if you want tighter images change 220 -> 180 or 160 */
+.project-img--placeholder {
+  height: 220px;
+  background: linear-gradient(135deg, rgba(30,111,235,0.06), rgba(0,168,132,0.04));
+}
+
+/* content area spacing already handled by .project-content padding */
+
+/* Desktop layout: image left, content right */
+@media (min-width: 920px) {
+  .project-card {
+    display: grid;
+    grid-template-columns: 360px 1fr;   /* image column fixed, content flexible */
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .project-media { height: 100%; min-height: 100%; }
+  .project-img { height: 100%; max-height: none; } /* fill the column height */
+  .project-content { padding: 28px 24px; }
+}
+
+/* Hover: subtle image zoom (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover .project-img { transform: scale(1.04); }
+  .project-card:hover { box-shadow: 0 20px 50px rgba(2,6,23,0.08); transform: translateY(-6px); transition: all .28s ease; }
+}
+
+/* Buttons: ensure CTA styles look like buttons not blue links */
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--accent);
+  box-shadow: 0 10px 30px rgba(30,111,235,0.12);
+  text-decoration: none;
+}
+.cta-primary:hover { transform: translateY(-3px); }
+
+.cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--glass);
+  color: var(--accent);
+  background: transparent;
+  text-decoration: none;
+}
+.cta-ghost:hover { background: rgba(0,0,0,0.02); color: white; background-color: var(--accent); }
+
+/* keep mobile stacking behavior (image above content) */
+@media (max-width: 919px) {
+  .project-card { display: block; }
+  .project-img { height: 180px; }
+  .project-content { padding: 14px; }
+}
+
+/* Small tweak: ensure AnimatedHeadline characters are inline and don't break layout */
+.animated-headline__visual { display: inline-block; line-height: 1.02; }
+.hero-char { display: inline-block; white-space: pre; }
+/* ---------- AnimatedHeadline (per-character) - robust version ---------- */
+
+/* keep sr-only for screen readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* container for the visual characters */
+.animated-headline__visual { display: inline-block; line-height: 1.02; vertical-align: middle; }
+
+/* each animated character */
+.hero-char {
+  display: inline-block;
+  white-space: pre;
+  opacity: 0;
+  transform: translateY(-26px) rotateX(8deg) scale(0.985);
+  will-change: transform, opacity;
+  animation-name: ah-drop;
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(.15, .9, .25, 1);
+  animation-fill-mode: both;
+  /* animationDelay set by inline style from component */
+  /* animationPlayState toggled by inline style from component (paused/running) */
+}
+
+/* keyframes for the drop-in */
+@keyframes ah-drop {
+  0% { opacity: 0; transform: translateY(-26px) rotateX(10deg) scale(0.98); }
+  60% { opacity: 1; transform: translateY(6px) rotateX(0deg) scale(1.02); }
+  100% { opacity: 1; transform: translateY(0) rotateX(0deg) scale(1); }
+}
+
+/* small hover micro-interaction (only when animation finished) */
+.hero-char:hover { transform: translateY(-4px) scale(1.02); transition: transform 160ms ease; }
+
+/* reduced motion: disable animations and make text visible */
+@media (prefers-reduced-motion: reduce) {
+  .hero-char { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+/* Ensure gap between Live (cta-primary) and Code (cta-ghost) buttons in project cards */
+.project-content .cta-primary + .cta-ghost,
+.project-content .cta-primary + .cta-ghost[rel] { 
+  margin-left: 0.75rem; /* 12px — same as Tailwind ml-3 / ml-4 feel */
+}
+
+/* fallback: if you ever invert order (ghost then primary) — keep a small gap */
+.project-content .cta-ghost + .cta-primary {
+  margin-left: 0.5rem;
+}
+/* === Hero social icon visual polish === */
+.hero-outer .connect-icons {
+  margin-top: 28px !important; /* clear gap below CTA buttons */
+  justify-content: flex-start;
+}
+
+.hero-outer .connect-icon {
+  width: 54px !important;  /* slightly larger bubble */
+  height: 54px !important;
+  border-radius: 14px !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)) !important;
+  box-shadow: 0 10px 30px rgba(0, 200, 255, 0.08), 0 0 8px rgba(255, 255, 255, 0.06) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.hero-outer .connect-icon img {
+  width: 26px !important;
+  height: 26px !important;
+  opacity: 0.95;
+  filter: brightness(1.3) drop-shadow(0 0 6px rgba(255, 255, 255, 0.3));
+}
+
+.hero-outer .connect-icon:hover {
+  transform: translateY(-6px) scale(1.07);
+  background: linear-gradient(180deg, rgba(0, 180, 255, 0.25), rgba(255, 255, 255, 0.08));
+  box-shadow: 0 16px 48px rgba(0, 200, 255, 0.22), 0 0 14px rgba(0, 255, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+  .hero-outer .connect-icons {
+    justify-content: center;
+  }
+  .hero-outer .connect-icon {
+    width: 46px !important;
+    height: 46px !important;
+  }
+  .hero-outer .connect-icon img {
+    width: 22px !important;
+    height: 22px !important;
+  }
+}
