@@ -3,52 +3,59 @@ import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
 
+/* --- Vercel-safe image imports (using import.meta.url) --- */
+const imgMusic = new URL("../assets/projects/music-visualizer.jpg", import.meta.url).href;
+const imgChitchat = new URL("../assets/projects/chitchat.jpg", import.meta.url).href;
+const imgTodo = new URL("../assets/projects/todo.jpg", import.meta.url).href;
+const imgMovie = new URL("../assets/projects/moviebuddy.jpg", import.meta.url).href;
+const imgHouse = new URL("../assets/projects/housingprice.jpg", import.meta.url).href;
+const imgGetfit = new URL("../assets/projects/getfit.jpg", import.meta.url).href;
+
 /**
  * ProjectsGrid — desktop: image left / content right
  * mobile: stacked (image above, content below)
- * ✅ Vercel-safe and works locally (uses new URL(..., import.meta.url))
  */
 
 const projects = [
   {
     title: "Python Music Visualizer",
-    desc: "An advanced Music Visualizer with audio-driven visuals (FFT, canvas) — dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn. Play from multiple sources & enjoy dynamic visuals. Also, try BeatSaber mode!",
-    img: new URL("../assets/projects/music-visualizer.jpg", import.meta.url).href,
+    desc: "A Advance Music Visualizer with Audio-driven visuals (FFT, canvas) - dynamic patterns reacting to sound. built with Streamlit and integrated with JioSaavn. Play music from multiple sources & Enjoy Dynamic Visuals. Also, Dont forget to play BeatSaber :)",
+    img: imgMusic,
     github: "https://github.com/NilamXSC/Music-visualizer",
     live: "https://music-visualizer-hxuorbfc6jxffrzaujna37.streamlit.app",
   },
   {
     title: "ChitChat Messaging App",
-    desc: "A privacy-first, real-time messaging app using sockets. Supports presence indicators, group chats, and zero data storage for complete anonymity and smooth UX.",
-    img: new URL("../assets/projects/chitchat.jpg", import.meta.url).href,
+    desc: "Chit Chat is a privacy-focused, real-time messaging application designed for secure and hassle-free communication. Built on socket-based architecture, it delivers instant chat updates, presence indicators, and group messaging, all while ensuring zero data storage on servers. The app prioritizes user anonymity and practicality, offering a seamless texting experience that masks user origins and avoids intrusive data collection. Simply create an account, invite your friends, and start chatting or forming groups, Chit Chat handles everything with speed, simplicity, and privacy in mind.",
+    img: imgChitchat,
     github: "https://github.com/NilamXSC/chitchat-textapp",
     live: "https://discord-mock-client.vercel.app/",
   },
   {
     title: "ToDo App",
-    desc: "A sleek, fast task manager with authentication and data persistence. Designed to help users plan and manage their daily tasks efficiently.",
-    img: new URL("../assets/projects/todo.jpg", import.meta.url).href,
+    desc: "A simple, fast task manager with auth and persistence. Designed for Practicality to help you going through day by day tasks & Fulfilling your needs, easy to traverse and plan your day.",
+    img: imgTodo,
     github: "https://github.com/NilamXSC/todo",
     live: "https://todo-nu-pearl.vercel.app/",
   },
   {
     title: "Movie Buddy",
-    desc: "A personalized entertainment assistant to discover and save movies with TMDB integration. Intuitive UI and smooth animations for movie lovers.",
-    img: new URL("../assets/projects/moviebuddy.jpg", import.meta.url).href,
+    desc: "Movie Buddy is designed to be an intelligent, user-friendly application that helps users find movies and TV shows effortlessly. Instead of endlessly scrolling through lists or relying on algorithms that don’t understand your tastes, Movie Buddy acts as your personalized entertainment assistant. Discover & save movies, built with TMDB and polished UI interactions.",
+    img: imgMovie,
     github: "https://github.com/NilamXSC/movie-buddy",
     live: "https://movie-buddy-taupe-rho.vercel.app/index.html",
   },
   {
     title: "House Price Prediction",
-    desc: "An ML project to predict house prices based on multiple features such as location, size, and amenities. Designed for reliable predictions and easy user input.",
-    img: new URL("../assets/projects/housingprice.jpg", import.meta.url).href,
+    desc: "House Price Prediction is a machine learning project focused on building an intelligent model that accurately estimates property prices based on a variety of influencing factors such as location, area, number of rooms, amenities, and more. The goal of the project is to analyze key features affecting real estate prices and develop a predictive model capable of providing reliable price estimates, helping both buyers and sellers make more informed decisions.",
+    img: imgHouse,
     github: "https://github.com/NilamXSC/housingPrice-prediction",
     live: "https://housingprice-predictionbynilam.streamlit.app/",
   },
   {
-    title: "Get Fit With Me - Landing Page",
-    desc: "A responsive fitness trainer landing page built with modern UI/UX, dynamic CTAs, scroll effects, and animation to encourage user engagement and sign-ups.",
-    img: new URL("../assets/projects/getfit.jpg", import.meta.url).href,
+    title: "Get Fit With Me - Gym Trainer Landing Page",
+    desc: "A fully responsive and visually engaging landing page designed for a personal fitness trainer brand. Built with a focus on modern UI/UX principles, it features smooth animations, interactive call-to-action (CTA) buttons, and dynamic form interactions to boost user engagement and lead conversion. The page adapts seamlessly across all devices, includes animated scroll effects, and presents key trainer details, services, testimonials, and a sign-up section, creating a professional first impression and encouraging visitors to join fitness programs.",
+    img: imgGetfit,
     github: "https://github.com/NilamXSC/getfitwithme",
     live: "https://getfitwithme.vercel.app/",
   },
@@ -73,6 +80,7 @@ export default function ProjectsGrid() {
     },
   };
 
+  // title per-letter animation (subtle)
   const titleContainer = {
     hidden: {},
     visible: { transition: { staggerChildren: 0.03, delayChildren: 0.04 } },
@@ -93,14 +101,14 @@ export default function ProjectsGrid() {
           className="text-4xl md:text-5xl font-extrabold mb-3"
         />
         <p className="text-[var(--muted)] max-w-xl mx-auto text-base md:text-lg">
-          <b>A hand-picked selection of my work — showcasing full-stack, real-time, and ML projects.</b>
+          <b>A hand-picked projects of mine, Showcasing my Skills.</b>
         </p>
         <div className="mt-3 w-16 h-1 bg-[var(--accent)] mx-auto rounded-full shadow-[0_0_18px_var(--accent)]" />
       </div>
 
       <div className="grid">
         {projects.map((p, i) => {
-          const direction = i % 2 === 0 ? 1 : -1;
+          const direction = i % 2 === 0 ? 1 : -1; // slide-in direction
           return (
             <motion.article
               key={p.title}
@@ -112,15 +120,21 @@ export default function ProjectsGrid() {
               className="project-card card rounded-2xl overflow-hidden bg-[var(--card)]"
               style={{ marginBottom: "2.5rem" }}
             >
+              {/* Left: media */}
               <div className="project-media">
-                <img
-                  src={p.img}
-                  alt={p.title}
-                  className="project-img"
-                  onError={(e) => (e.currentTarget.style.display = "none")}
-                />
+                {p.img ? (
+                  <img
+                    src={p.img}
+                    alt={p.title}
+                    className="project-img"
+                    onError={(e) => (e.target.style.display = "none")}
+                  />
+                ) : (
+                  <div className="project-img project-img--placeholder" />
+                )}
               </div>
 
+              {/* Right: content */}
               <motion.div
                 className="project-content p-5 md:p-6"
                 initial={{ opacity: 0, y: 6 }}
@@ -156,6 +170,7 @@ export default function ProjectsGrid() {
                   {p.desc}
                 </p>
 
+                {/* ✅ Button spacing */}
                 <div className="flex gap-5 items-center">
                   {p.live ? (
                     <a
