@@ -4,66 +4,54 @@ import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
 
 /**
- * ProjectsGrid — robust image loading with fallback and logging.
- *
- * Make sure:
- *  - Your project images exist at public/assets/projects/... (committed)
- *  - A fallback placeholder exists at public/assets/projects/placeholder.jpg
- *
- * This file will try:
- *   1) `${BASE_URL}assets/projects/xxx.jpg`
- *   2) `${window.location.origin}/assets/projects/xxx.jpg` (absolute)
- *   3) `${BASE_URL}assets/projects/placeholder.jpg`
+ * ProjectsGrid — desktop: image left / content right
+ * mobile: stacked (image above, content below)
+ * 
+ * ✅ Uses default public asset path:
+ * Place all images in: public/assets/projects/
+ * Example: public/assets/projects/music-visualizer.jpg
  */
-
-const base = import.meta.env.BASE_URL || "/";
 
 const projects = [
   {
     title: "Python Music Visualizer",
-    desc:
-      "A Advance Music Visualizer with Audio-driven visuals (FFT, canvas) - dynamic patterns reacting to sound. built with Streamlit and integrated with JioSaavn.  Play music from multiple sources & Enjoy Dynamic Visuals. Also, Dont forget to play BeatSaber :)",
-    img: "assets/projects/music-visualizer.jpg",
+    desc: "An advanced Music Visualizer with Audio-driven visuals (FFT, canvas) — dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn. Play music from multiple sources & enjoy dynamic visuals. Also, don't forget to play BeatSaber :)",
+    img: "/assets/projects/music-visualizer.jpg",
     github: "https://github.com/NilamXSC/Music-visualizer",
     live: "https://music-visualizer-hxuorbfc6jxffrzaujna37.streamlit.app",
   },
   {
     title: "ChitChat Messaging App",
-    desc:
-      "Chit Chat is a privacy-focused, real-time messaging application designed for secure and hassle-free communication. Built on socket-based architecture, it delivers instant chat updates, presence indicators, and group messaging, all while ensuring zero data storage on servers. The app prioritizes user anonymity and practicality, offering a seamless texting experience that masks user origins and avoids intrusive data collection. Simply create an account, invite your friends, and start chatting or forming groups, Chit Chat handles everything with speed, simplicity, and privacy in mind.",
-    img: "assets/projects/chitchat.jpg",
+    desc: "A privacy-focused, real-time messaging app built with sockets for instant chat updates and presence indicators. Ensures zero data storage on servers, prioritizing user anonymity and simplicity.",
+    img: "/assets/projects/chitchat.jpg",
     github: "https://github.com/NilamXSC/chitchat-textapp",
     live: "https://discord-mock-client.vercel.app/",
   },
   {
     title: "ToDo App",
-    desc:
-      "A simple, fast task manager with auth and persistence. Designed for Practicality to help you going through day by day tasks & Fulfilling your needs, easy to traverse and plan your day.",
-    img: "assets/projects/todo.jpg",
+    desc: "A simple, fast task manager with authentication and persistent data. Designed for everyday practicality with clean UI and smooth experience.",
+    img: "/assets/projects/todo.jpg",
     github: "https://github.com/NilamXSC/todo",
     live: "https://todo-nu-pearl.vercel.app/",
   },
   {
     title: "Movie Buddy",
-    desc:
-      "Movie Buddy is designed to be an intelligent, user-friendly application that helps users find movies and TV shows effortlessly. Instead of endlessly scrolling through lists or relying on algorithms that don’t understand your tastes, Movie Buddy acts as your personalized entertainment assistant. Discover & save movies, built with TMDB and polished UI interactions.",
-    img: "assets/projects/moviebuddy.jpg",
+    desc: "A smart, user-friendly movie discovery app built using TMDB API. Features polished UI, smooth animations, and allows users to explore and save favorite movies.",
+    img: "/assets/projects/moviebuddy.jpg",
     github: "https://github.com/NilamXSC/movie-buddy",
     live: "https://movie-buddy-taupe-rho.vercel.app/index.html",
   },
   {
     title: "House Price Prediction",
-    desc:
-      "House Price Prediction is a machine learning project focused on building an intelligent model that accurately estimates property prices based on a variety of influencing factors such as location, area, number of rooms, amenities, and more. The goal of the project is to analyze key features affecting real estate prices and develop a predictive model capable of providing reliable price estimates, helping both buyers and sellers make more informed decisions.",
-    img: "assets/projects/housingprice.jpg",
+    desc: "A machine learning project that predicts house prices based on multiple influencing factors such as location, size, and amenities using trained regression models.",
+    img: "/assets/projects/housingprice.jpg",
     github: "https://github.com/NilamXSC/housingPrice-prediction",
     live: "https://housingprice-predictionbynilam.streamlit.app/",
   },
   {
-    title: "Get Fit With Me - Gym Trainer Landing Page",
-    desc:
-      "A fully responsive and visually engaging landing page designed for a personal fitness trainer brand. Built with a focus on modern UI/UX principles, it features smooth animations, interactive call-to-action (CTA) buttons, and dynamic form interactions to boost user engagement and lead conversion. The page adapts seamlessly across all devices, includes animated scroll effects, and presents key trainer details, services, testimonials, and a sign-up section, creating a professional first impression and encouraging visitors to join fitness programs.",
-    img: "assets/projects/getfit.jpg",
+    title: "Get Fit With Me — Landing Page",
+    desc: "A fully responsive, visually engaging landing page for fitness trainers. Features smooth animations, interactive CTAs, and adaptive design for all devices.",
+    img: "/assets/projects/getfit.jpg",
     github: "https://github.com/NilamXSC/getfitwithme",
     live: "https://getfitwithme.vercel.app/",
   },
@@ -92,27 +80,24 @@ export default function ProjectsGrid() {
     hidden: {},
     visible: { transition: { staggerChildren: 0.03, delayChildren: 0.04 } },
   };
+
   const titleChar = {
     hidden: { opacity: 0, y: 8 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.26 } },
   };
 
-  const makePrimary = (relPath) => {
-    // normalize base and relPath into a single path that starts with "/"
-    const baseTrim = (base || "/").replace(/\/$/, ""); // e.g. "/mybase" or ""
-    const path = relPath.startsWith("/") ? relPath.slice(1) : relPath;
-    const primary = `${baseTrim ? baseTrim : ""}/${path}`; // may be "/assets/..."
-    return primary;
-  };
-
-  const placeholder = makePrimary("assets/projects/placeholder.jpg");
-
   return (
-    <section id="projects" className="section-gap container-site relative z-10 text-[var(--text)]">
+    <section
+      id="projects"
+      className="section-gap container-site relative z-10 text-[var(--text)]"
+    >
       <div className="text-center mb-8">
-        <AnimatedHeadline text="Featured Projects" className="text-4xl md:text-5xl font-extrabold mb-3" />
+        <AnimatedHeadline
+          text="Featured Projects"
+          className="text-4xl md:text-5xl font-extrabold mb-3"
+        />
         <p className="text-[var(--muted)] max-w-xl mx-auto text-base md:text-lg">
-          <b>A hand-picked projects of mine, Showcasing my Skills.</b>
+          <b>A hand-picked selection of my featured projects.</b>
         </p>
         <div className="mt-3 w-16 h-1 bg-[var(--accent)] mx-auto rounded-full shadow-[0_0_18px_var(--accent)]" />
       </div>
@@ -120,7 +105,6 @@ export default function ProjectsGrid() {
       <div className="grid">
         {projects.map((p, i) => {
           const direction = i % 2 === 0 ? 1 : -1;
-          const primary = makePrimary(p.img);
 
           return (
             <motion.article
@@ -133,72 +117,78 @@ export default function ProjectsGrid() {
               className="project-card card rounded-2xl overflow-hidden bg-[var(--card)]"
               style={{ marginBottom: "2.5rem" }}
             >
-              <div className="project-media" style={{ minHeight: 160 }}>
-                <img
-                  src={primary}
-                  alt={p.title}
-                  className="project-img"
-                  onError={(e) => {
-                    try {
-                      const attempted = e.currentTarget.src;
-                      console.warn(`[ProjectsGrid] primary failed:`, attempted);
-                      // try absolute origin fallback
-                      if (typeof window !== "undefined") {
-                        const abs = `${window.location.origin}${primary.startsWith("/") ? primary : "/" + primary}`;
-                        console.warn(`[ProjectsGrid] trying absolute URL:`, abs);
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src = abs;
-                        // set a small timer - if absolute fails, next onError will run and we'll set placeholder
-                        setTimeout(() => {
-                          if (e.currentTarget && e.currentTarget.src === abs) {
-                            // nothing — wait for onerror to handle
-                          }
-                        }, 300);
-                        return;
-                      }
-                    } catch (err) {
-                      console.error("[ProjectsGrid] onError handler failure:", err);
-                    }
-                    // final fallback
-                    try {
-                      console.warn(`[ProjectsGrid] switching to placeholder: ${placeholder}`);
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src = placeholder;
-                    } catch (err) {
-                      // ignore
-                    }
-                  }}
-                  style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }}
-                />
+              {/* Left: Image */}
+              <div className="project-media">
+                {p.img ? (
+                  <img
+                    src={p.img}
+                    alt={p.title}
+                    className="project-img"
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    onError={(e) => (e.target.style.display = "none")}
+                  />
+                ) : (
+                  <div className="project-img project-img--placeholder" />
+                )}
               </div>
 
-              <motion.div className="project-content p-5 md:p-6" initial={{ opacity: 0, y: 6 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.06, duration: 0.5 }} viewport={{ once: true, amount: 0.3 }}>
-                <motion.h3 className="text-lg md:text-xl font-semibold mb-2 text-[var(--text)]" variants={titleContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
-                  {Array.from(p.title).map((ch, idx) => {
-                    const key = `${p.title}-${idx}`;
-                    const display = ch === " " ? "\u00A0" : ch;
-                    return (
-                      <motion.span key={key} className="inline-block" variants={titleChar} style={{ display: "inline-block" }} aria-hidden>
-                        {display}
-                      </motion.span>
-                    );
-                  })}
+              {/* Right: Content */}
+              <motion.div
+                className="project-content p-5 md:p-6"
+                initial={{ opacity: 0, y: 6 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.06, duration: 0.5 }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <motion.h3
+                  className="text-lg md:text-xl font-semibold mb-2 text-[var(--text)]"
+                  variants={titleContainer}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                >
+                  {Array.from(p.title).map((ch, idx) => (
+                    <motion.span
+                      key={`${p.title}-${idx}`}
+                      className="inline-block"
+                      variants={titleChar}
+                      style={{ display: "inline-block" }}
+                    >
+                      {ch === " " ? "\u00A0" : ch}
+                    </motion.span>
+                  ))}
                 </motion.h3>
 
-                <p className="text-[var(--muted)] text-sm mb-4 leading-relaxed">{p.desc}</p>
+                <p className="text-[var(--muted)] text-sm mb-4 leading-relaxed">
+                  {p.desc}
+                </p>
 
                 <div className="flex gap-5 items-center">
                   {p.live ? (
-                    <a className="cta-primary" href={p.live} target="_blank" rel="noreferrer">
+                    <a
+                      className="cta-primary"
+                      href={p.live}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       Live
                     </a>
                   ) : (
-                    <span className="cta-ghost" aria-hidden style={{ opacity: 0.75 }}>
+                    <span
+                      className="cta-ghost"
+                      aria-hidden
+                      style={{ opacity: 0.75 }}
+                    >
                       No demo
                     </span>
                   )}
 
-                  <a className="cta-ghost" href={p.github} target="_blank" rel="noreferrer">
+                  <a
+                    className="cta-ghost"
+                    href={p.github}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     Code
                   </a>
                 </div>
