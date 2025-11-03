@@ -1,9 +1,7 @@
-// src/components/ProjectsGrid.jsx
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
 
-/* --- Vercel-safe image imports (using import.meta.url) --- */
 const imgMusic = new URL("../assets/projects/music-visualizer.jpg", import.meta.url).href;
 const imgChitchat = new URL("../assets/projects/chitchat.jpg", import.meta.url).href;
 const imgTodo = new URL("../assets/projects/todo.jpg", import.meta.url).href;
