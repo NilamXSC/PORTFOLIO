@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
 
 /**
- * ProjectsGrid — uses public/ assets for images (Vercel-friendly)
+ * ProjectsGrid — uses site base + public/ assets for images (Vercel-friendly)
  *
  * Place your images in: public/assets/projects/
  * Filenames expected:
@@ -16,15 +16,17 @@ import AnimatedHeadline from "./AnimatedHeadline";
  *  - getfit.jpg
  *  - placeholder.jpg  (optional fallback)
  *
- * Image URLs use absolute paths from the site root: /assets/projects/<name>.jpg
+ * This file constructs image URLs using import.meta.env.BASE_URL so it works in sub-path deployments.
  */
+
+const base = import.meta.env.BASE_URL || "/";
 
 const projects = [
   {
     title: "Python Music Visualizer",
     desc:
       "A Advance Music Visualizer with Audio-driven visuals (FFT, canvas) - dynamic patterns reacting to sound. built with Streamlit and integrated with JioSaavn.  Play music from multiple sources & Enjoy Dynamic Visuals. Also, Dont forget to play BeatSaber :)",
-    img: "/assets/projects/music-visualizer.jpg",
+    img: `${base}assets/projects/music-visualizer.jpg`,
     github: "https://github.com/NilamXSC/Music-visualizer",
     live: "https://music-visualizer-hxuorbfc6jxffrzaujna37.streamlit.app",
   },
@@ -32,7 +34,7 @@ const projects = [
     title: "ChitChat Messaging App",
     desc:
       "Chit Chat is a privacy-focused, real-time messaging application designed for secure and hassle-free communication. Built on socket-based architecture, it delivers instant chat updates, presence indicators, and group messaging, all while ensuring zero data storage on servers. The app prioritizes user anonymity and practicality, offering a seamless texting experience that masks user origins and avoids intrusive data collection. Simply create an account, invite your friends, and start chatting or forming groups, Chit Chat handles everything with speed, simplicity, and privacy in mind.",
-    img: "/assets/projects/chitchat.jpg",
+    img: `${base}assets/projects/chitchat.jpg`,
     github: "https://github.com/NilamXSC/chitchat-textapp",
     live: "https://discord-mock-client.vercel.app/",
   },
@@ -40,7 +42,7 @@ const projects = [
     title: "ToDo App",
     desc:
       "A simple, fast task manager with auth and persistence. Designed for Practicality to help you going through day by day tasks & Fulfilling your needs, easy to traverse and plan your day.",
-    img: "/assets/projects/todo.jpg",
+    img: `${base}assets/projects/todo.jpg`,
     github: "https://github.com/NilamXSC/todo",
     live: "https://todo-nu-pearl.vercel.app/",
   },
@@ -48,7 +50,7 @@ const projects = [
     title: "Movie Buddy",
     desc:
       "Movie Buddy is designed to be an intelligent, user-friendly application that helps users find movies and TV shows effortlessly. Instead of endlessly scrolling through lists or relying on algorithms that don’t understand your tastes, Movie Buddy acts as your personalized entertainment assistant. Discover & save movies, built with TMDB and polished UI interactions.",
-    img: "/assets/projects/moviebuddy.jpg",
+    img: `${base}assets/projects/moviebuddy.jpg`,
     github: "https://github.com/NilamXSC/movie-buddy",
     live: "https://movie-buddy-taupe-rho.vercel.app/index.html",
   },
@@ -56,7 +58,7 @@ const projects = [
     title: "House Price Prediction",
     desc:
       "House Price Prediction is a machine learning project focused on building an intelligent model that accurately estimates property prices based on a variety of influencing factors such as location, area, number of rooms, amenities, and more. The goal of the project is to analyze key features affecting real estate prices and develop a predictive model capable of providing reliable price estimates, helping both buyers and sellers make more informed decisions.",
-    img: "/assets/projects/housingprice.jpg",
+    img: `${base}assets/projects/housingprice.jpg`,
     github: "https://github.com/NilamXSC/housingPrice-prediction",
     live: "https://housingprice-predictionbynilam.streamlit.app/",
   },
@@ -64,7 +66,7 @@ const projects = [
     title: "Get Fit With Me - Gym Trainer Landing Page",
     desc:
       "A fully responsive and visually engaging landing page designed for a personal fitness trainer brand. Built with a focus on modern UI/UX principles, it features smooth animations, interactive call-to-action (CTA) buttons, and dynamic form interactions to boost user engagement and lead conversion. The page adapts seamlessly across all devices, includes animated scroll effects, and presents key trainer details, services, testimonials, and a sign-up section, creating a professional first impression and encouraging visitors to join fitness programs.",
-    img: "/assets/projects/getfit.jpg",
+    img: `${base}assets/projects/getfit.jpg`,
     github: "https://github.com/NilamXSC/getfitwithme",
     live: "https://getfitwithme.vercel.app/",
   },
@@ -99,8 +101,8 @@ export default function ProjectsGrid() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.26 } },
   };
 
-  // fallback placeholder path in public
-  const fallback = "/assets/projects/placeholder.jpg";
+  // fallback placeholder path in public (also using base)
+  const fallback = `${base}assets/projects/placeholder.jpg`;
 
   return (
     <section
@@ -140,11 +142,13 @@ export default function ProjectsGrid() {
                     alt={p.title}
                     className="project-img"
                     onError={(e) => {
+                      // try fallback and log full URLs so you can inspect them in the deployed browser
                       try {
-                        // replace with fallback in public
+                        const failing = e.currentTarget.src;
+                        console.warn("[ProjectsGrid] image failed to load:", failing);
                         e.currentTarget.onerror = null;
                         e.currentTarget.src = fallback;
-                        console.warn("[ProjectsGrid] image fallback used for:", p.img);
+                        console.warn("[ProjectsGrid] switched to fallback:", fallback);
                       } catch (err) {
                         console.error(err);
                       }
@@ -194,30 +198,16 @@ export default function ProjectsGrid() {
 
                 <div className="flex gap-5 items-center">
                   {p.live ? (
-                    <a
-                      className="cta-primary"
-                      href={p.live}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a className="cta-primary" href={p.live} target="_blank" rel="noreferrer">
                       Live
                     </a>
                   ) : (
-                    <span
-                      className="cta-ghost"
-                      aria-hidden
-                      style={{ opacity: 0.75 }}
-                    >
+                    <span className="cta-ghost" aria-hidden style={{ opacity: 0.75 }}>
                       No demo
                     </span>
                   )}
 
-                  <a
-                    className="cta-ghost"
-                    href={p.github}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a className="cta-ghost" href={p.github} target="_blank" rel="noreferrer">
                     Code
                   </a>
                 </div>
