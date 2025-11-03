@@ -1,57 +1,62 @@
-// src/components/ProjectsGrid.jsx
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
 
 /**
- * ProjectsGrid — desktop: image left / content right
- * mobile: stacked (image above, content below)
+ * ✅ ProjectsGrid — Images are imported directly from src/assets.
+ * This is the proper and reliable Vite/React method for static assets.
  * 
- * ✅ Uses default public asset path:
- * Place all images in: public/assets/projects/
- * Example: public/assets/projects/music-visualizer.jpg
+ * Make sure all images exist inside: src/assets/projects/
+ * Example: src/assets/projects/music-visualizer.jpg
  */
+
+import imgMusic from "../assets/projects/music-visualizer.jpg";
+import imgChitchat from "../assets/projects/chitchat.jpg";
+import imgTodo from "../assets/projects/todo.jpg";
+import imgMovie from "../assets/projects/moviebuddy.jpg";
+import imgHouse from "../assets/projects/housingprice.jpg";
+import imgGetfit from "../assets/projects/getfit.jpg";
 
 const projects = [
   {
     title: "Python Music Visualizer",
     desc: "An advanced Music Visualizer with Audio-driven visuals (FFT, canvas) — dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn. Play music from multiple sources & enjoy dynamic visuals. Also, don't forget to play BeatSaber :)",
-    img: "/assets/projects/music-visualizer.jpg",
+    img: imgMusic,
     github: "https://github.com/NilamXSC/Music-visualizer",
     live: "https://music-visualizer-hxuorbfc6jxffrzaujna37.streamlit.app",
   },
   {
     title: "ChitChat Messaging App",
     desc: "A privacy-focused, real-time messaging app built with sockets for instant chat updates and presence indicators. Ensures zero data storage on servers, prioritizing user anonymity and simplicity.",
-    img: "/assets/projects/chitchat.jpg",
+    img: imgChitchat,
     github: "https://github.com/NilamXSC/chitchat-textapp",
     live: "https://discord-mock-client.vercel.app/",
   },
   {
     title: "ToDo App",
     desc: "A simple, fast task manager with authentication and persistent data. Designed for everyday practicality with clean UI and smooth experience.",
-    img: "/assets/projects/todo.jpg",
+    img: imgTodo,
     github: "https://github.com/NilamXSC/todo",
     live: "https://todo-nu-pearl.vercel.app/",
   },
   {
     title: "Movie Buddy",
     desc: "A smart, user-friendly movie discovery app built using TMDB API. Features polished UI, smooth animations, and allows users to explore and save favorite movies.",
-    img: "/assets/projects/moviebuddy.jpg",
+    img: imgMovie,
     github: "https://github.com/NilamXSC/movie-buddy",
     live: "https://movie-buddy-taupe-rho.vercel.app/index.html",
   },
   {
     title: "House Price Prediction",
     desc: "A machine learning project that predicts house prices based on multiple influencing factors such as location, size, and amenities using trained regression models.",
-    img: "/assets/projects/housingprice.jpg",
+    img: imgHouse,
     github: "https://github.com/NilamXSC/housingPrice-prediction",
     live: "https://housingprice-predictionbynilam.streamlit.app/",
   },
   {
     title: "Get Fit With Me — Landing Page",
     desc: "A fully responsive, visually engaging landing page for fitness trainers. Features smooth animations, interactive CTAs, and adaptive design for all devices.",
-    img: "/assets/projects/getfit.jpg",
+    img: imgGetfit,
     github: "https://github.com/NilamXSC/getfitwithme",
     live: "https://getfitwithme.vercel.app/",
   },
@@ -97,7 +102,7 @@ export default function ProjectsGrid() {
           className="text-4xl md:text-5xl font-extrabold mb-3"
         />
         <p className="text-[var(--muted)] max-w-xl mx-auto text-base md:text-lg">
-          <b>A hand-picked selection of my featured projects.</b>
+          <b>A hand-picked collection of my best projects showcasing fullstack development and creative design.</b>
         </p>
         <div className="mt-3 w-16 h-1 bg-[var(--accent)] mx-auto rounded-full shadow-[0_0_18px_var(--accent)]" />
       </div>
@@ -117,22 +122,23 @@ export default function ProjectsGrid() {
               className="project-card card rounded-2xl overflow-hidden bg-[var(--card)]"
               style={{ marginBottom: "2.5rem" }}
             >
-              {/* Left: Image */}
+              {/* Project Image */}
               <div className="project-media">
-                {p.img ? (
-                  <img
-                    src={p.img}
-                    alt={p.title}
-                    className="project-img"
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                    onError={(e) => (e.target.style.display = "none")}
-                  />
-                ) : (
-                  <div className="project-img project-img--placeholder" />
-                )}
+                <img
+                  src={p.img}
+                  alt={p.title}
+                  className="project-img"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                  onError={(e) => (e.target.style.display = "none")}
+                />
               </div>
 
-              {/* Right: Content */}
+              {/* Project Details */}
               <motion.div
                 className="project-content p-5 md:p-6"
                 initial={{ opacity: 0, y: 6 }}
