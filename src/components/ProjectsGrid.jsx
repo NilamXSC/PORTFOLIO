@@ -1,53 +1,53 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
+import ProjectImage from "./ProjectImage"; // ✅ NEW import
 
 /**
  * ProjectsGrid — Final Deployment-Safe Version
- * Uses public/assets/projects/... for all images.
- * Works perfectly on localhost + Vercel.
+ * Uses ProjectImage.jsx to handle image resolution from both /src and /public
  */
 
 const projects = [
   {
     title: "Python Music Visualizer",
     desc: "A Advance Music Visualizer with Audio-driven visuals (FFT, canvas) - dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn.",
-    img: "/assets/projects/music-visualizer.jpg",
+    img: "music-visualizer.jpg",
     github: "https://github.com/NilamXSC/Music-visualizer",
     live: "https://music-visualizer-hxuorbfc6jxffrzaujna37.streamlit.app",
   },
   {
     title: "ChitChat Messaging App",
     desc: "A privacy-focused real-time messaging app using sockets, ensuring zero data storage and instant communication.",
-    img: "/assets/projects/chitchat.jpg",
+    img: "chitchat.jpg",
     github: "https://github.com/NilamXSC/chitchat-textapp",
     live: "https://discord-mock-client.vercel.app/",
   },
   {
     title: "ToDo App",
     desc: "A simple, fast task manager with authentication and persistent data.",
-    img: "/assets/projects/todo.jpg",
+    img: "todo.jpg",
     github: "https://github.com/NilamXSC/todo",
     live: "https://todo-nu-pearl.vercel.app/",
   },
   {
     title: "Movie Buddy",
     desc: "Discover & save movies easily using TMDB API with a clean, modern UI.",
-    img: "/assets/projects/moviebuddy.jpg",
+    img: "moviebuddy.jpg",
     github: "https://github.com/NilamXSC/movie-buddy",
     live: "https://movie-buddy-taupe-rho.vercel.app/index.html",
   },
   {
     title: "House Price Prediction",
     desc: "A machine learning app predicting real estate prices using advanced regression models.",
-    img: "/assets/projects/housingprice.jpg",
+    img: "housingprice.jpg",
     github: "https://github.com/NilamXSC/housingPrice-prediction",
     live: "https://housingprice-predictionbynilam.streamlit.app/",
   },
   {
     title: "Get Fit With Me — Landing Page",
     desc: "A modern, responsive landing page for personal trainers with smooth animations and CTAs.",
-    img: "/assets/projects/getfit.jpg",
+    img: "getfit.jpg",
     github: "https://github.com/NilamXSC/getfitwithme",
     live: "https://getfitwithme.vercel.app/",
   },
@@ -113,22 +113,18 @@ export default function ProjectsGrid() {
               style={{ marginBottom: "2.5rem" }}
             >
               <div className="project-media">
-                {p.img ? (
-                  <img
-                    src={p.img}
-                    alt={p.title}
-                    className="project-img"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      display: "block",
-                    }}
-                    onError={(e) => (e.currentTarget.style.display = "none")}
-                  />
-                ) : (
-                  <div className="project-img project-img--placeholder" />
-                )}
+                {/* ✅ Using ProjectImage instead of <img> */}
+                <ProjectImage
+                  file={p.img}
+                  alt={p.title}
+                  className="project-img"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
               </div>
 
               <motion.div
@@ -172,7 +168,11 @@ export default function ProjectsGrid() {
                       Live
                     </a>
                   ) : (
-                    <span className="cta-ghost" aria-hidden style={{ opacity: 0.75 }}>
+                    <span
+                      className="cta-ghost"
+                      aria-hidden
+                      style={{ opacity: 0.75 }}
+                    >
                       No demo
                     </span>
                   )}
