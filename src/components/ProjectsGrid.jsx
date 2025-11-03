@@ -4,67 +4,81 @@ import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
 
 /**
- * ProjectsGrid — Vite-safe version using import.meta.globEager
- * Auto-bundles images from src/assets/projects/ so deployment works on Vercel.
+ * ProjectsGrid — desktop: image left / content right
+ * mobile: stacked (image above, content below)
  *
- * Ensure your images are in: src/assets/projects/
- * Filenames (case-sensitive) should match the keys used below (or update them).
+ * Image loading strategy:
+ * 1) Try to resolve images from src/assets/projects via import.meta.globEager (Vite bundling).
+ * 2) If not found, fall back to public path /assets/projects/<filename>.
+ *
+ * This makes the component resilient for both local dev and Vercel deployments.
  */
 
-// load all images in folder at build time (Vite)
-const images = import.meta.globEager("../assets/projects/*.{png,jpg,jpeg,webp,svg}");
+// preload anything inside src/assets/projects (jpg|jpeg|png|webp|svg)
+const imagesEager = import.meta.globEager("../assets/projects/*.{png,jpg,jpeg,webp,svg}");
 
-// Build a simple map from basename (without extension) to URL
-const imgMap = {};
-Object.keys(images).forEach((key) => {
-  // key example: "../assets/projects/music-visualizer.jpg"
-  const parts = key.split("/");
-  const file = parts[parts.length - 1]; // e.g. "music-visualizer.jpg"
-  const name = file.replace(/\.[^/.]+$/, ""); // "music-visualizer"
-  imgMap[name.toLowerCase()] = images[key].default || images[key];
-});
+// build a map: "music-visualizer.jpg" -> imported URL (default export)
+const bundled = {};
+for (const path in imagesEager) {
+  const mod = imagesEager[path];
+  // extract filename
+  const parts = path.split("/");
+  const filename = parts[parts.length - 1];
+  // modules can export default or be the URL
+  bundled[filename] = mod.default || mod;
+}
 
-// Projects list (images referred by "basename" key)
+// helper to resolve image path from a "basename" (filename)
+function resolveImg(filename) {
+  if (!filename) return null;
+  // If user passed a filename with leading slash remove it
+  const fname = filename.replace(/^\/+/, "");
+  // If bundled version exists, return it
+  if (bundled[fname]) return bundled[fname];
+  // else try public fallback (ensure it starts with /)
+  return `/assets/projects/${fname}`;
+}
+
 const projects = [
   {
     title: "Python Music Visualizer",
-    desc: "A Advance Music Visualizer with Audio-driven visuals (FFT, canvas) - dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn.",
-    imgKey: "music-visualizer",
+    desc: "A Advance Music Visualizer with Audio-driven visuals (FFT, canvas) - dynamic patterns reacting to sound. built with Streamlit and integrated with JioSaavn.  Play music from multiple sources & Enjoy Dynamic Visuals. Also, Dont forget to play BeatSaber :)",
+    img: "music-visualizer.jpg",
     github: "https://github.com/NilamXSC/Music-visualizer",
     live: "https://music-visualizer-hxuorbfc6jxffrzaujna37.streamlit.app",
   },
   {
     title: "ChitChat Messaging App",
-    desc: "A privacy-focused real-time messaging app using sockets, ensuring zero data storage and instant communication.",
-    imgKey: "chitchat",
+    desc: "Chit Chat is a privacy-focused, real-time messaging application designed for secure and hassle-free communication. Built on socket-based architecture, it delivers instant chat updates, presence indicators, and group messaging, all while ensuring zero data storage on servers. The app prioritizes user anonymity and practicality, offering a seamless texting experience that masks user origins and avoids intrusive data collection. Simply create an account, invite your friends, and start chatting or forming groups, Chit Chat handles everything with speed, simplicity, and privacy in mind.",
+    img: "chitchat.jpg",
     github: "https://github.com/NilamXSC/chitchat-textapp",
     live: "https://discord-mock-client.vercel.app/",
   },
   {
     title: "ToDo App",
-    desc: "A simple, fast task manager with authentication and persistent data.",
-    imgKey: "todo",
+    desc: "A simple, fast task manager with auth and persistence. Designed for Practicality to help you going through day by day tasks & Fulfilling your needs, easy to traverse and plan your day.",
+    img: "todo.jpg",
     github: "https://github.com/NilamXSC/todo",
     live: "https://todo-nu-pearl.vercel.app/",
   },
   {
     title: "Movie Buddy",
-    desc: "Discover & save movies easily using TMDB API with a clean, modern UI.",
-    imgKey: "moviebuddy",
+    desc: "Movie Buddy is designed to be an intelligent, user-friendly application that helps users find movies and TV shows effortlessly. Instead of endlessly scrolling through lists or relying on algorithms that don’t understand your tastes, Movie Buddy acts as your personalized entertainment assistant. Discover & save movies, built with TMDB and polished UI interactions.",
+    img: "moviebuddy.jpg",
     github: "https://github.com/NilamXSC/movie-buddy",
     live: "https://movie-buddy-taupe-rho.vercel.app/index.html",
   },
   {
     title: "House Price Prediction",
-    desc: "A machine learning app predicting real estate prices using advanced regression models.",
-    imgKey: "housingprice",
+    desc: "House Price Prediction is a machine learning project focused on building an intelligent model that accurately estimates property prices based on a variety of influencing factors such as location, area, number of rooms, amenities, and more. The goal of the project is to analyze key features affecting real estate prices and develop a predictive model capable of providing reliable price estimates, helping both buyers and sellers make more informed decisions.",
+    img: "housingprice.jpg",
     github: "https://github.com/NilamXSC/housingPrice-prediction",
     live: "https://housingprice-predictionbynilam.streamlit.app/",
   },
   {
-    title: "Get Fit With Me — Landing Page",
-    desc: "A modern, responsive landing page for personal trainers with smooth animations and CTAs.",
-    imgKey: "getfit",
+    title: "Get Fit With Me - Gym Trainer Landing Page",
+    desc: "A fully responsive and visually engaging landing page designed for a personal fitness trainer brand. Built with a focus on modern UI/UX principles, it features smooth animations, interactive call-to-action (CTA) buttons, and dynamic form interactions to boost user engagement and lead conversion. The page adapts seamlessly across all devices, includes animated scroll effects, and presents key trainer details, services, testimonials, and a sign-up section, creating a professional first impression and encouraging visitors to join fitness programs.",
+    img: "getfit.jpg",
     github: "https://github.com/NilamXSC/getfitwithme",
     live: "https://getfitwithme.vercel.app/",
   },
@@ -110,7 +124,7 @@ export default function ProjectsGrid() {
           className="text-4xl md:text-5xl font-extrabold mb-3"
         />
         <p className="text-[var(--muted)] max-w-xl mx-auto text-base md:text-lg">
-          <b>A curated collection of my fullstack projects and creative builds.</b>
+          <b>A hand-picked projects of mine, Showcasing my Skills.</b>
         </p>
         <div className="mt-3 w-16 h-1 bg-[var(--accent)] mx-auto rounded-full shadow-[0_0_18px_var(--accent)]" />
       </div>
@@ -118,8 +132,7 @@ export default function ProjectsGrid() {
       <div className="grid">
         {projects.map((p, i) => {
           const direction = i % 2 === 0 ? 1 : -1; // slide-in direction
-          const imgSrc = imgMap[p.imgKey?.toLowerCase()] || null;
-
+          const imgUrl = resolveImg(p.img);
           return (
             <motion.article
               key={p.title}
@@ -133,18 +146,19 @@ export default function ProjectsGrid() {
             >
               {/* Left: media */}
               <div className="project-media">
-                {imgSrc ? (
+                {imgUrl ? (
                   <img
-                    src={imgSrc}
+                    src={imgUrl}
                     alt={p.title}
                     className="project-img"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      display: "block",
+                    onError={(e) => {
+                      // if this fires, try fallback public path just in case
+                      if (!imgUrl.startsWith("/assets/")) {
+                        e.currentTarget.src = `/assets/projects/${p.img}`;
+                        return;
+                      }
+                      e.currentTarget.style.display = "none";
                     }}
-                    onError={(e) => (e.currentTarget.style.display = "none")}
                   />
                 ) : (
                   <div className="project-img project-img--placeholder" />
