@@ -144,17 +144,16 @@ export default function TechStack() {
             {OUTER.map((slug, idx) => {
               const { x, y, deg } = computeTransform(idx, OUTER.length, outerRadiusDesktop);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
-              const size = iconSizeDesktop;
-              const img = `/src/assets/tech/${slug}.svg`;
+              const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
                 <div
                   key={`out-${slug}-${idx}`}
                   className="orb-item"
                   style={{
-                    width: size,
-                    height: size,
-                    marginLeft: `-${size / 2}px`,
-                    marginTop: `-${size / 2}px`,
+                    width: iconSizeDesktop,
+                    height: iconSizeDesktop,
+                    marginLeft: `-${iconSizeDesktop / 2}px`,
+                    marginTop: `-${iconSizeDesktop / 2}px`,
                     transform,
                   }}
                   title={slug}
@@ -184,17 +183,16 @@ export default function TechStack() {
             {MIDDLE.map((slug, idx) => {
               const { x, y, deg } = computeTransform(idx, MIDDLE.length, middleRadiusDesktop);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
-              const size = iconSizeDesktop;
-              const img = `/src/assets/tech/${slug}.svg`;
+              const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
                 <div
                   key={`mid-${slug}-${idx}`}
                   className="orb-item"
                   style={{
-                    width: size,
-                    height: size,
-                    marginLeft: `-${size / 2}px`,
-                    marginTop: `-${size / 2}px`,
+                    width: iconSizeDesktop,
+                    height: iconSizeDesktop,
+                    marginLeft: `-${iconSizeDesktop / 2}px`,
+                    marginTop: `-${iconSizeDesktop / 2}px`,
                     transform,
                   }}
                   title={slug}
@@ -224,17 +222,16 @@ export default function TechStack() {
             {INNER.map((slug, idx) => {
               const { x, y, deg } = computeTransform(idx, INNER.length, innerRadiusDesktop);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
-              const size = iconSizeDesktop;
-              const img = `/src/assets/tech/${slug}.svg`;
+              const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
                 <div
                   key={`in-${slug}-${idx}`}
                   className="orb-item"
                   style={{
-                    width: size,
-                    height: size,
-                    marginLeft: `-${size / 2}px`,
-                    marginTop: `-${size / 2}px`,
+                    width: iconSizeDesktop,
+                    height: iconSizeDesktop,
+                    marginLeft: `-${iconSizeDesktop / 2}px`,
+                    marginTop: `-${iconSizeDesktop / 2}px`,
                     transform,
                   }}
                   title={slug}
