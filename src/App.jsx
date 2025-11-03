@@ -1,6 +1,5 @@
 // src/App.jsx
 import React, { useEffect, useState } from "react";
-import Loader from "./components/Loader";
 import Sidebar from "./components/Sidebar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -15,14 +14,7 @@ import ResponsiveAdjustments from "./components/ResponsiveAdjustments";
 import BackgroundMesh from "./components/BackgroundMesh";
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
   const [openConnect, setOpenConnect] = useState(false);
-
-  // loader timeout
-  useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 700);
-    return () => clearTimeout(t);
-  }, []);
 
   // event listener for connect drawer (if used elsewhere)
   useEffect(() => {
@@ -32,8 +24,6 @@ export default function App() {
       window.removeEventListener("openConnect", onOpenConnect);
     };
   }, []);
-
-  if (loading) return <Loader />;
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] relative">
