@@ -116,7 +116,7 @@ export default function Hero() {
 
         {/* Animated headline */}
         <AnimatedHeadline
-          text={"Hi, Nilam Here,         Welcoming you to myPortfolio"}
+          text={"Hi, Nilam Here,         Welcoming you to my Portfolio"}
         />
 
         <p className="lead">
