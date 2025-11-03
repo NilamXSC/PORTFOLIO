@@ -1,53 +1,70 @@
+// src/components/ProjectsGrid.jsx
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
 
 /**
- * ProjectsGrid — Final Deployment-Safe Version
- * Uses public/assets/projects/... for all images.
- * Works perfectly on localhost + Vercel.
+ * ProjectsGrid — Vite-safe version using import.meta.globEager
+ * Auto-bundles images from src/assets/projects/ so deployment works on Vercel.
+ *
+ * Ensure your images are in: src/assets/projects/
+ * Filenames (case-sensitive) should match the keys used below (or update them).
  */
 
+// load all images in folder at build time (Vite)
+const images = import.meta.globEager("../assets/projects/*.{png,jpg,jpeg,webp,svg}");
+
+// Build a simple map from basename (without extension) to URL
+const imgMap = {};
+Object.keys(images).forEach((key) => {
+  // key example: "../assets/projects/music-visualizer.jpg"
+  const parts = key.split("/");
+  const file = parts[parts.length - 1]; // e.g. "music-visualizer.jpg"
+  const name = file.replace(/\.[^/.]+$/, ""); // "music-visualizer"
+  imgMap[name.toLowerCase()] = images[key].default || images[key];
+});
+
+// Projects list (images referred by "basename" key)
 const projects = [
   {
     title: "Python Music Visualizer",
     desc: "A Advance Music Visualizer with Audio-driven visuals (FFT, canvas) - dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn.",
-    img: "/assets/projects/music-visualizer.jpg",
+    imgKey: "music-visualizer",
     github: "https://github.com/NilamXSC/Music-visualizer",
     live: "https://music-visualizer-hxuorbfc6jxffrzaujna37.streamlit.app",
   },
   {
     title: "ChitChat Messaging App",
     desc: "A privacy-focused real-time messaging app using sockets, ensuring zero data storage and instant communication.",
-    img: "/assets/projects/chitchat.jpg",
+    imgKey: "chitchat",
     github: "https://github.com/NilamXSC/chitchat-textapp",
     live: "https://discord-mock-client.vercel.app/",
   },
   {
     title: "ToDo App",
     desc: "A simple, fast task manager with authentication and persistent data.",
-    img: "/assets/projects/todo.jpg",
+    imgKey: "todo",
     github: "https://github.com/NilamXSC/todo",
     live: "https://todo-nu-pearl.vercel.app/",
   },
   {
     title: "Movie Buddy",
     desc: "Discover & save movies easily using TMDB API with a clean, modern UI.",
-    img: "/assets/projects/moviebuddy.jpg",
+    imgKey: "moviebuddy",
     github: "https://github.com/NilamXSC/movie-buddy",
     live: "https://movie-buddy-taupe-rho.vercel.app/index.html",
   },
   {
     title: "House Price Prediction",
     desc: "A machine learning app predicting real estate prices using advanced regression models.",
-    img: "/assets/projects/housingprice.jpg",
+    imgKey: "housingprice",
     github: "https://github.com/NilamXSC/housingPrice-prediction",
     live: "https://housingprice-predictionbynilam.streamlit.app/",
   },
   {
     title: "Get Fit With Me — Landing Page",
     desc: "A modern, responsive landing page for personal trainers with smooth animations and CTAs.",
-    img: "/assets/projects/getfit.jpg",
+    imgKey: "getfit",
     github: "https://github.com/NilamXSC/getfitwithme",
     live: "https://getfitwithme.vercel.app/",
   },
@@ -72,11 +89,11 @@ export default function ProjectsGrid() {
     },
   };
 
+  // title per-letter animation (subtle)
   const titleContainer = {
     hidden: {},
     visible: { transition: { staggerChildren: 0.03, delayChildren: 0.04 } },
   };
-
   const titleChar = {
     hidden: { opacity: 0, y: 8 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.26 } },
@@ -100,7 +117,9 @@ export default function ProjectsGrid() {
 
       <div className="grid">
         {projects.map((p, i) => {
-          const direction = i % 2 === 0 ? 1 : -1;
+          const direction = i % 2 === 0 ? 1 : -1; // slide-in direction
+          const imgSrc = imgMap[p.imgKey?.toLowerCase()] || null;
+
           return (
             <motion.article
               key={p.title}
@@ -112,10 +131,11 @@ export default function ProjectsGrid() {
               className="project-card card rounded-2xl overflow-hidden bg-[var(--card)]"
               style={{ marginBottom: "2.5rem" }}
             >
+              {/* Left: media */}
               <div className="project-media">
-                {p.img ? (
+                {imgSrc ? (
                   <img
-                    src={p.img}
+                    src={imgSrc}
                     alt={p.title}
                     className="project-img"
                     style={{
@@ -131,6 +151,7 @@ export default function ProjectsGrid() {
                 )}
               </div>
 
+              {/* Right: content */}
               <motion.div
                 className="project-content p-5 md:p-6"
                 initial={{ opacity: 0, y: 6 }}
@@ -145,16 +166,21 @@ export default function ProjectsGrid() {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.2 }}
                 >
-                  {Array.from(p.title).map((ch, idx) => (
-                    <motion.span
-                      key={`${p.title}-${idx}`}
-                      className="inline-block"
-                      variants={titleChar}
-                      style={{ display: "inline-block" }}
-                    >
-                      {ch === " " ? "\u00A0" : ch}
-                    </motion.span>
-                  ))}
+                  {Array.from(p.title).map((ch, idx) => {
+                    const key = `${p.title}-${idx}`;
+                    const display = ch === " " ? "\u00A0" : ch;
+                    return (
+                      <motion.span
+                        key={key}
+                        className="inline-block"
+                        variants={titleChar}
+                        style={{ display: "inline-block" }}
+                        aria-hidden
+                      >
+                        {display}
+                      </motion.span>
+                    );
+                  })}
                 </motion.h3>
 
                 <p className="text-[var(--muted)] text-sm mb-4 leading-relaxed">
@@ -163,12 +189,7 @@ export default function ProjectsGrid() {
 
                 <div className="flex gap-5 items-center">
                   {p.live ? (
-                    <a
-                      className="cta-primary"
-                      href={p.live}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a className="cta-primary" href={p.live} target="_blank" rel="noreferrer">
                       Live
                     </a>
                   ) : (
@@ -177,12 +198,7 @@ export default function ProjectsGrid() {
                     </span>
                   )}
 
-                  <a
-                    className="cta-ghost"
-                    href={p.github}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a className="cta-ghost" href={p.github} target="_blank" rel="noreferrer">
                     Code
                   </a>
                 </div>
