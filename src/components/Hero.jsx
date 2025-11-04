@@ -4,13 +4,15 @@ import PhotoCard from "./PhotoCard";
 import AnimatedButton from "./AnimatedButton";
 import AnimatedHeadline from "./AnimatedHeadline";
 
-/**
- * Hero — uses public/assets for images and icons
- * Move these files into /public/assets/:
- *   logo-symbol.png
- *   profile.jpg
- *   social/github.svg, linkedin.svg, instagram.svg, youtube.svg, mail.svg, leetcode.svg
- */
+/* Import assets from src so Vite bundles them */
+import logoImg from "../assets/logo-symbol.png";
+import profileImg from "../assets/profile.jpg";
+import githubIcon from "../assets/social/github.svg";
+import linkedinIcon from "../assets/social/linkedin.svg";
+import instagramIcon from "../assets/social/instagram.svg";
+import youtubeIcon from "../assets/social/youtube.svg";
+import mailIcon from "../assets/social/mail.svg";
+import leetcodeIcon from "../assets/social/leetcode.svg";
 
 export default function Hero() {
   // Scroll helper with offset to avoid fixed header overlap
@@ -33,7 +35,42 @@ export default function Hero() {
   return (
     <section id="home" className="hero-outer container-site mx-auto">
       <style>{`
-        /* small scoped styles for the connect icons */
+        /* Base layout - desktop */
+        .hero-outer {
+          display: flex;
+          gap: 28px;
+          align-items: center;
+          justify-content: space-between;
+          padding: 36px 12px;
+        }
+
+        .hero-left {
+          flex: 1 1 60%;
+          min-width: 0;
+        }
+
+        .hero-right {
+          width: 40%;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        }
+
+        /* Headline container sizing controlled by AnimatedHeadline but we add responsive safeties */
+        .hero-headline {
+          margin: 6px 0 12px 0;
+        }
+
+        /* CTA row - desktop horizontal */
+        .cta-row {
+          display: grid;
+          grid-auto-flow: column;
+          grid-auto-columns: min-content;
+          gap: 12px;
+          align-items: center;
+        }
+
+        /* Social icons row */
         .connect-icons {
           display: flex;
           gap: 12px;
@@ -41,6 +78,7 @@ export default function Hero() {
           align-items: center;
           flex-wrap: nowrap;
         }
+
         .connect-icon {
           width: 44px;
           height: 44px;
@@ -55,212 +93,177 @@ export default function Hero() {
           text-decoration: none;
           -webkit-tap-highlight-color: transparent;
         }
-        .connect-icon:focus { outline: 3px solid rgba(30,111,235,0.12); outline-offset: 3px; }
-        .connect-icon img, .connect-icon svg { width: 20px; height: 20px; display: block; }
+        .connect-icon img { width: 20px; height: 20px; display: block; filter: none; }
 
-        /* hover glow variants */
         .connect-icon:hover {
           transform: translateY(-6px) scale(1.06);
           box-shadow: 0 18px 50px rgba(2,6,23,0.16);
           background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
         }
 
-        /* subtle color accents kept professional */
-        .ci-github { color: #fff; background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.14)); }
-        .ci-linkedin { color: #0a66c2; background: linear-gradient(180deg, rgba(14,118,168,0.06), rgba(14,118,168,0.03)); }
-        .ci-ig { color: #e4405f; background: linear-gradient(180deg, rgba(233,86,86,0.06), rgba(240,160,80,0.03)); }
-        .ci-yt { color: #ff3333; background: linear-gradient(180deg, rgba(220,65,65,0.06), rgba(220,100,100,0.03)); }
-        .ci-mail { color: #2b6cb0; background: linear-gradient(180deg, rgba(90,120,200,0.04), rgba(90,120,200,0.02)); }
-        .ci-leet { color: #2a9d8f; background: linear-gradient(180deg, rgba(120,200,120,0.04), rgba(120,200,120,0.02)); }
+        /* Animated vertical divider (kept as in original) */
+        .animated-line { width: 36px; height: 200px; display:block; }
 
-        /* reduce motion */
-        @media (prefers-reduced-motion: reduce) {
-          .connect-icon { transition: none; transform: none; }
+        /* PhotoCard container rules */
+        .photo-wrap { display:flex; align-items:center; justify-content:center; }
+
+        /* Responsive rules (mobile-first adjustments) */
+        @media (max-width: 980px) {
+          .hero-outer {
+            gap: 18px;
+            padding: 28px 12px;
+          }
+          .hero-right { width: 46%; }
         }
 
-        /* responsive: shrink icons a bit on small screens */
         @media (max-width: 720px) {
-          .connect-icon { width: 40px; height: 40px; border-radius: 9px; }
-          .connect-icon img, .connect-icon svg { width: 18px; height: 18px; }
+          /* Stack the layout vertically on small screens */
+          .hero-outer {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 20px 12px 36px 12px;
+            gap: 18px;
+          }
+          .hero-left {
+            order: 1;
+            width: 100%;
+            text-align: center;
+            padding: 0 6px;
+          }
+          .hero-right {
+            order: 2;
+            width: 100%;
+            display:flex;
+            justify-content:center;
+            margin-top: 6px;
+          }
+
+          /* headline: smaller and better line-height */
+          .hero-headline .animated-headline__visual,
+          .hero-headline h1, 
+          .hero-headline h2 {
+            font-size: 34px !important;
+            line-height: 1.02 !important;
+            letter-spacing: -0.6px;
+          }
+
+          /* CTA: two column grid to avoid huge vertical stack */
+          .cta-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            justify-items: center;
+            margin: 8px auto 0;
+            max-width: 420px;
+          }
+
+          /* Make buttons full width in the grid cells */
+          .cta-row .btn {
+            width: 100%;
+            max-width: 320px;
+          }
+
+          /* Social icons: center and slightly bigger for touch */
+          .connect-icons {
+            justify-content: center;
+            gap: 14px;
+            margin-top: 16px;
+          }
+          .connect-icon { width: 48px; height: 48px; border-radius: 12px; }
+          .connect-icon img { width: 22px; height: 22px; }
+
+          /* Photo sizing: make the profile card smaller and center */
+          .photo-wrap { padding: 6px 8px 18px; }
+          .photo-wrap .photo-card { width: min(86vw, 360px); }
+        }
+
+        /* tiny screens */
+        @media (max-width: 420px) {
+          .hero-headline .animated-headline__visual,
+          .hero-headline h1, 
+          .hero-headline h2 {
+            font-size: 28px !important;
+            line-height: 1.04 !important;
+          }
+          .cta-row { gap: 10px; }
+          .connect-icons { gap: 10px; margin-top: 12px; }
         }
       `}</style>
 
       <div className="hero-left">
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            marginBottom: 10,
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10, justifyContent: "center" }}>
           <div className="brand-logo" style={{ width: 46, height: 46 }}>
             <img
-              src="/assets/logo-symbol.png"
+              src={logoImg}
               alt="Arc of Nilam logo"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
-              }}
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              onError={(e) => { e.currentTarget.style.display = "none"; }}
             />
           </div>
-          <div>
+          <div style={{ display: "none" }}>
+            {/* kept for accessibility/structure if needed in future */}
             <div style={{ fontWeight: 700 }}>Arc of Nilam</div>
           </div>
         </div>
 
-        {/* Animated headline */}
-        <AnimatedHeadline
-          text={"Hi, Nilam Here,         Welcoming you to my Portfolio"}
-        />
+        {/* Animated headline — keep wrapper class for responsive targeting */}
+        <div className="hero-headline">
+          <AnimatedHeadline text={"Hi, Nilam Here,         Welcoming you to my Portfolio"} />
+        </div>
 
-        <p className="lead">
-          I’m a MERN Fullstack Developer and DevOps professional passionate
-          about harnessing Cloud, AI, and Data Science to build projects that
-          simplify everyday life.
+        <p className="lead" style={{ maxWidth: 820, margin: "8px auto 0", textAlign: "center" }}>
+          I’m a MERN Fullstack Developer and DevOps professional passionate about harnessing Cloud, AI, and Data Science to build projects that simplify everyday life.
         </p>
 
         {/* CTA row */}
-        <div
-          className="cta-row"
-          style={{
-            marginTop: 18,
-            display: "flex",
-            gap: 12,
-            flexWrap: "wrap",
-            alignItems: "center",
-          }}
-        >
-          <AnimatedButton variant="flame" onClick={() => scrollToId("about")}>
-            About Me
-          </AnimatedButton>
-          <AnimatedButton variant="rain" onClick={() => scrollToId("projects")}>
-            Projects
-          </AnimatedButton>
-          <AnimatedButton variant="nature" onClick={() => scrollToId("tech")}>
-            Tech Stack
-          </AnimatedButton>
-          <AnimatedButton variant="glass" onClick={() => scrollToId("contact")}>
-            Contact
-          </AnimatedButton>
+        <div className="cta-row" style={{ marginTop: 18 }}>
+          <AnimatedButton variant="flame" onClick={() => scrollToId("about")}>About Me</AnimatedButton>
+          <AnimatedButton variant="rain" onClick={() => scrollToId("projects")}>Projects</AnimatedButton>
+          <AnimatedButton variant="nature" onClick={() => scrollToId("tech")}>Tech Stack</AnimatedButton>
+          <AnimatedButton variant="glass" onClick={() => scrollToId("contact")}>Contact</AnimatedButton>
         </div>
 
         {/* SOCIAL ICONS: GitHub, LinkedIn, Instagram, YouTube, Email, LeetCode */}
         <div className="connect-icons" role="navigation" aria-label="social links">
-          <a
-            className="connect-icon ci-github"
-            href="https://github.com/NilamXSC"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            title="GitHub"
-          >
-            <img
-              src="/assets/social/github.svg"
-              alt="GitHub"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
+          <a className="connect-icon ci-github" href="https://github.com/NilamXSC" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+            <img src={githubIcon} alt="GitHub" onError={(e)=> e.currentTarget.style.display='none'} />
           </a>
 
-          <a
-            className="connect-icon ci-linkedin"
-            href="https://www.linkedin.com/in/chakrabortynilam9/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            title="LinkedIn"
-          >
-            <img
-              src="/assets/social/linkedin.svg"
-              alt="LinkedIn"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
+          <a className="connect-icon ci-linkedin" href="https://www.linkedin.com/in/chakrabortynilam9/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+            <img src={linkedinIcon} alt="LinkedIn" onError={(e)=> e.currentTarget.style.display='none'} />
           </a>
 
-          <a
-            className="connect-icon ci-ig"
-            href="https://www.instagram.com/nilam.jackdaw7"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            title="Instagram"
-          >
-            <img
-              src="/assets/social/instagram.svg"
-              alt="Instagram"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
+          <a className="connect-icon ci-ig" href="https://www.instagram.com/nilam.jackdaw7" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+            <img src={instagramIcon} alt="Instagram" onError={(e)=> e.currentTarget.style.display='none'} />
           </a>
 
-          <a
-            className="connect-icon ci-yt"
-            href="https://www.youtube.com/@raidenxd7482"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="YouTube"
-            title="YouTube"
-          >
-            <img
-              src="/assets/social/youtube.svg"
-              alt="YouTube"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
+          <a className="connect-icon ci-yt" href="https://www.youtube.com/@raidenxd7482" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+            <img src={youtubeIcon} alt="YouTube" onError={(e)=> e.currentTarget.style.display='none'} />
           </a>
 
-          <a
-            className="connect-icon ci-mail"
-            href="mailto:chakrabortynilam88@gmail.com"
-            aria-label="Email"
-            title="Email"
-          >
-            <img
-              src="/assets/social/mail.svg"
-              alt="Email"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
+          <a className="connect-icon ci-mail" href="mailto:chakrabortynilam88@gmail.com" aria-label="Email" title="Email">
+            <img src={mailIcon} alt="Email" onError={(e)=> e.currentTarget.style.display='none'} />
           </a>
 
-          <a
-            className="connect-icon ci-leet"
-            href="https://leetcode.com/u/nilamxsc/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LeetCode"
-            title="LeetCode"
-          >
-            <img
-              src="/assets/social/leetcode.svg"
-              alt="LeetCode"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
+          <a className="connect-icon ci-leet" href="https://leetcode.com/u/nilamxsc/" target="_blank" rel="noopener noreferrer" aria-label="LeetCode" title="LeetCode">
+            <img src={leetcodeIcon} alt="LeetCode" onError={(e)=> e.currentTarget.style.display='none'} />
           </a>
         </div>
       </div>
 
       <div className="hero-right">
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <svg
-            className="animated-line"
-            viewBox="0 0 36 200"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden
-          >
-            <path
-              className="line-path"
-              d="M18 8 C18 40 18 80 18 120 C18 160 18 184 18 192"
-            />
+          <svg className="animated-line" viewBox="0 0 36 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+            <path className="line-path" d="M18 8 C18 40 18 80 18 120 C18 160 18 184 18 192" stroke="rgba(30,111,235,0.6)" strokeWidth="2" strokeLinecap="round" />
           </svg>
 
-          <PhotoCard
-            src="/assets/profile.jpg"
-            alt="Nilam Sanjib Chakraborty - Fullstack Developer"
-          />
+          <div className="photo-wrap">
+            <PhotoCard
+              src={profileImg}
+              alt="Nilam Sanjib Chakraborty — Fullstack Developer"
+              style={{ maxWidth: "480px" }}
+            />
+          </div>
         </div>
       </div>
     </section>
