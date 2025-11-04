@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Sidebar from "./components/Sidebar";
 import Hero from "./components/Hero";
+import HeroMobile from "./components/HeroMobile";
 import About from "./components/About";
 import ProjectsGrid from "./components/ProjectsGrid";
 import TechStack from "./components/TechStack";
@@ -34,6 +35,7 @@ export default function App() {
 
         <main className="main-with-sidebar relative z-10">
           <div className="md:pt-0 pt-16">
+            <HeroMobile />
             <Hero />
             <About />
             <ProjectsGrid />
