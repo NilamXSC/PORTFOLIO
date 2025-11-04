@@ -1,5 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+
+/**
+ * TechStack - responsive 3-ring solar-system style orbiting icons around a central "Tech Stack" bubble.
+ *
+ * Behavior changes:
+ * - Desktop: original (slow) orbit animations.
+ * - Mobile (<= 880px): renders a compact, smaller version with animations paused (no sliding/overflow).
+ * - Uses import.meta.url -> new URL(...) for SVG paths to be Vite / deployment friendly.
+ *
+ * This file is a drop-in replacement for your previous TechStack.jsx.
+ */
 
 const INNER = ["react", "nodedotjs", "vite", "tailwindcss", "prisma", "postgresql"];
 const MIDDLE = ["mongodb", "docker", "socket", "streamlit", "fastapi", "fastify", "framer"];
@@ -8,20 +19,38 @@ const OUTER = ["python", "pandas", "scikitlearn", "pytorch", "git", "nextdotjs",
 export default function TechStack() {
   const reduceMotion = useReducedMotion();
 
+  // Desktop sizes (same spirit as original)
   const centerSize = 200;
   const innerRadiusDesktop = 180;
   const middleRadiusDesktop = 290;
   const outerRadiusDesktop = 420;
-  const innerRadiusMobile = 100;
-  const middleRadiusMobile = 160;
-  const outerRadiusMobile = 220;
-
   const iconSizeDesktop = 80;
-  const iconSizeMobile = 56;
 
+  // Mobile (compact) sizes
+  const centerSizeMobile = 120;
+  const innerRadiusMobile = 70;
+  const middleRadiusMobile = 118;
+  const outerRadiusMobile = 160;
+  const iconSizeMobile = 48;
+
+  // Animation durations (very slow)
   const outerDuration = 220;
   const middleDuration = 160;
   const innerDuration = 120;
+
+  // Responsive detection (rehydrate on resize)
+  const [isSmall, setIsSmall] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth <= 880;
+  });
+
+  useEffect(() => {
+    function onResize() {
+      setIsSmall(window.innerWidth <= 880);
+    }
+    window.addEventListener("resize", onResize, { passive: true });
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   function computeTransform(idx, N, radius) {
     const angle = (idx / N) * Math.PI * 2;
@@ -31,8 +60,23 @@ export default function TechStack() {
     return { x, y, deg };
   }
 
+  // Choose sizes based on breakpoint
+  const center = isSmall ? centerSizeMobile : centerSize;
+  const innerRadius = isSmall ? innerRadiusMobile : innerRadiusDesktop;
+  const middleRadius = isSmall ? middleRadiusMobile : middleRadiusDesktop;
+  const outerRadius = isSmall ? outerRadiusMobile : outerRadiusDesktop;
+  const iconSize = isSmall ? iconSizeMobile : iconSizeDesktop;
+
+  // Orbit wrapper size (avoid overflow on mobile by limiting to 100% width and using a safe pixel width)
+  const orbitWrapSize = isSmall
+    ? Math.min(outerRadius * 2 + iconSize, Math.max(300, outerRadius * 2 + iconSize))
+    : outerRadius * 2 + iconSize;
+
+  // For mobile we do not want continuous rotation that causes layout movement; pause animations.
+  const animationsPaused = reduceMotion || isSmall;
+
   return (
-    <section id="tech" style={{ padding: "60px 12px" }}>
+    <section id="tech" style={{ padding: isSmall ? "36px 12px" : "60px 12px" }}>
       <style>{`
         .tech-solar {
           display:flex;
@@ -41,12 +85,16 @@ export default function TechStack() {
           flex-direction:column;
           gap:18px;
           width:100%;
+          overflow: hidden;
         }
 
         .orbit-wrap {
           position:relative;
           display:grid;
           place-items:center;
+          width: ${orbitWrapSize}px;
+          height: ${orbitWrapSize}px;
+          max-width: 100%;
         }
 
         .orbit { position:absolute; inset:0; display:block; transform-origin:center; }
@@ -87,8 +135,8 @@ export default function TechStack() {
 
         .center-bubble {
           z-index:80;
-          width: ${centerSize}px;
-          height: ${centerSize}px;
+          width: ${center}px;
+          height: ${center}px;
           border-radius:999px;
           display:flex;
           align-items:center;
@@ -97,7 +145,7 @@ export default function TechStack() {
           box-shadow: 0 30px 90px rgba(30,111,235,0.08);
           border: 1px solid rgba(255,255,255,0.06);
         }
-        .center-bubble .label { font-weight: 900; font-size: 1.35rem; color: var(--text); text-align:center; }
+        .center-bubble .label { font-weight: 900; font-size: ${isSmall ? "1.05rem" : "1.35rem"}; color: var(--text); text-align:center; }
 
         .tech-sub { color: var(--muted); max-width: 880px; text-align:center; font-size:0.95rem; margin-top:6px; }
 
@@ -106,34 +154,35 @@ export default function TechStack() {
           .orb-item { transition: none !important; transform: none !important; }
         }
 
-        @media (max-width: 880px) {
-          .center-bubble { width: 150px; height: 150px; }
-          .orb-item { width: ${iconSizeMobile}px; height: ${iconSizeMobile}px; margin-left: calc(-${iconSizeMobile/2}px); margin-top: calc(-${iconSizeMobile/2}px); }
-          .orbit-wrap { width: ${outerRadiusMobile * 2 + iconSizeMobile}px; height: ${outerRadiusMobile * 2 + iconSizeMobile}px; }
+        /* Extra guard for tiny screens to ensure no horizontal overflow */
+        @media (max-width: 420px) {
+          .orbit-wrap { transform: scale(0.92); }
+          .center-bubble { width: ${Math.max(100, centerSizeMobile - 10)}px; height: ${Math.max(100, centerSizeMobile - 10)}px; }
         }
       `}</style>
 
-      <div className="tech-solar container-site">
+      <div className="tech-solar container-site" aria-hidden={false}>
         <div
           className="orbit-wrap"
           style={{
-            width: `${outerRadiusDesktop * 2 + iconSizeDesktop}px`,
-            height: `${outerRadiusDesktop * 2 + iconSizeDesktop}px`,
+            width: orbitWrapSize,
+            height: orbitWrapSize,
           }}
         >
           {/* OUTER ring */}
           <div
             className="orbit orbit-outer"
             style={{
-              animationName: "orbit-outer",
+              animationName: animationsPaused ? "none" : "orbit-outer",
               animationDuration: `${outerDuration}s`,
               animationTimingFunction: "linear",
               animationIterationCount: "infinite",
-              animationPlayState: reduceMotion ? "paused" : "running",
+              animationPlayState: animationsPaused ? "paused" : "running",
             }}
+            aria-hidden={animationsPaused}
           >
             {OUTER.map((slug, idx) => {
-              const { x, y, deg } = computeTransform(idx, OUTER.length, outerRadiusDesktop);
+              const { x, y, deg } = computeTransform(idx, OUTER.length, outerRadius);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
               const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
@@ -141,10 +190,10 @@ export default function TechStack() {
                   key={`out-${slug}-${idx}`}
                   className="orb-item"
                   style={{
-                    width: iconSizeDesktop,
-                    height: iconSizeDesktop,
-                    marginLeft: `-${iconSizeDesktop / 2}px`,
-                    marginTop: `-${iconSizeDesktop / 2}px`,
+                    width: iconSize,
+                    height: iconSize,
+                    marginLeft: `-${iconSize / 2}px`,
+                    marginTop: `-${iconSize / 2}px`,
                     transform,
                   }}
                   title={slug}
@@ -164,15 +213,16 @@ export default function TechStack() {
           <div
             className="orbit orbit-middle"
             style={{
-              animationName: "orbit-middle",
+              animationName: animationsPaused ? "none" : "orbit-middle",
               animationDuration: `${middleDuration}s`,
               animationTimingFunction: "linear",
               animationIterationCount: "infinite",
-              animationPlayState: reduceMotion ? "paused" : "running",
+              animationPlayState: animationsPaused ? "paused" : "running",
             }}
+            aria-hidden={animationsPaused}
           >
             {MIDDLE.map((slug, idx) => {
-              const { x, y, deg } = computeTransform(idx, MIDDLE.length, middleRadiusDesktop);
+              const { x, y, deg } = computeTransform(idx, MIDDLE.length, middleRadius);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
               const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
@@ -180,10 +230,10 @@ export default function TechStack() {
                   key={`mid-${slug}-${idx}`}
                   className="orb-item"
                   style={{
-                    width: iconSizeDesktop,
-                    height: iconSizeDesktop,
-                    marginLeft: `-${iconSizeDesktop / 2}px`,
-                    marginTop: `-${iconSizeDesktop / 2}px`,
+                    width: iconSize,
+                    height: iconSize,
+                    marginLeft: `-${iconSize / 2}px`,
+                    marginTop: `-${iconSize / 2}px`,
                     transform,
                   }}
                   title={slug}
@@ -203,15 +253,16 @@ export default function TechStack() {
           <div
             className="orbit orbit-inner"
             style={{
-              animationName: "orbit-inner",
+              animationName: animationsPaused ? "none" : "orbit-inner",
               animationDuration: `${innerDuration}s`,
               animationTimingFunction: "linear",
               animationIterationCount: "infinite",
-              animationPlayState: reduceMotion ? "paused" : "running",
+              animationPlayState: animationsPaused ? "paused" : "running",
             }}
+            aria-hidden={animationsPaused}
           >
             {INNER.map((slug, idx) => {
-              const { x, y, deg } = computeTransform(idx, INNER.length, innerRadiusDesktop);
+              const { x, y, deg } = computeTransform(idx, INNER.length, innerRadius);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
               const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
@@ -219,10 +270,10 @@ export default function TechStack() {
                   key={`in-${slug}-${idx}`}
                   className="orb-item"
                   style={{
-                    width: iconSizeDesktop,
-                    height: iconSizeDesktop,
-                    marginLeft: `-${iconSizeDesktop / 2}px`,
-                    marginTop: `-${iconSizeDesktop / 2}px`,
+                    width: iconSize,
+                    height: iconSize,
+                    marginLeft: `-${iconSize / 2}px`,
+                    marginTop: `-${iconSize / 2}px`,
                     transform,
                   }}
                   title={slug}
@@ -245,12 +296,14 @@ export default function TechStack() {
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.9, type: "spring", stiffness: 88, damping: 12 }}
             viewport={{ once: true }}
+            aria-hidden={false}
           >
             <div className="label">Tech Stack</div>
           </motion.div>
         </div>
 
-        <div className="tech-sub">
+        <div className="tech-sub" aria-hidden={false}>
+          {/* optional explanatory text (kept empty by default) */}
         </div>
       </div>
     </section>
