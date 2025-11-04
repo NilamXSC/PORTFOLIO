@@ -1,53 +1,47 @@
-// src/components/ProjectsGrid.jsx
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
 
-/**
- * ProjectsGrid — Deployment-Safe Version
- * Uses public/assets/projects/... with uppercase .JPG filenames.
- * Guaranteed to work both locally and on Vercel.
- */
 
 const projects = [
   {
     title: "Python Music Visualizer",
-    desc: "An advanced Music Visualizer with audio-driven visuals (FFT, canvas) — dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn.",
+    desc: "An advanced Music Visualizer with audio-driven visuals (FFT, canvas) — dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn. Also Dont forget to try BeatSaber :)",
     img: "/assets/projects/music-visualizer.JPG",
     github: "https://github.com/NilamXSC/Music-visualizer",
     live: "https://music-visualizer-hxuorbfc6jxffrzaujna37.streamlit.app",
   },
   {
     title: "ChitChat Messaging App",
-    desc: "A privacy-focused real-time messaging app using sockets, ensuring zero data storage and instant communication.",
+    desc: "ChitChat is a privacy-focused realtime messaging app built on secure socket connections, enabling instant communication with zero data storage. Every message is encrypted end-to-end and transmitted directly between users, never stored on servers or in the cloud. Once delivered, conversations disappear completely, leaving no trace, no logs, and no history. ChitChat redefines real-time messaging with a sleek, fast, and truly ephemeral chat experience that prioritizes your privacy above all else.",
     img: "/assets/projects/chitchat.JPG",
     github: "https://github.com/NilamXSC/chitchat-textapp",
     live: "https://discord-mock-client.vercel.app/",
   },
   {
     title: "ToDo App",
-    desc: "A simple, fast task manager with authentication and persistent data.",
+    desc: "Todo is a lightweight, fast task manager with built-in authentication and reliable persistent storage, perfect for getting things done without the bloat. It’s focused on speed, simplicity, and secure access so users can create, organize, and sync tasks across devices with no fuss.",
     img: "/assets/projects/todo.JPG",
     github: "https://github.com/NilamXSC/todo",
     live: "https://todo-nu-pearl.vercel.app/",
   },
   {
     title: "Movie Buddy",
-    desc: "Discover & save movies easily using TMDB API with a clean, modern UI.",
+    desc: "Movie Buddy is your answer when gettind bored and you need to watch some stuff but google doesnot really help you with that, it helps users discover, organize, and enjoy movies with friends. Fast, simple, and social, it combines personalized recommendations, watchlists, and lightweight watch-party features with secure sign-in and persistent data so nothing gets lost.",
     img: "/assets/projects/moviebuddy.JPG",
     github: "https://github.com/NilamXSC/movie-buddy",
     live: "https://movie-buddy-taupe-rho.vercel.app/index.html",
   },
   {
     title: "House Price Prediction",
-    desc: "A machine learning app predicting real estate prices using advanced regression models.",
+    desc: "This is a machine-learning project that ingests real estate features, trains advanced regression ensembles (XGBoost / LightGBM / CatBoost and neural nets), and returns instant price estimates with uncertainty and interpretability. Trained on a curated Kaggle dataset, it provides interactive visualizations, local explanations (SHAP), and deployment-ready models so users can test scenarios and see why a prediction was made.",
     img: "/assets/projects/housingprice.JPG",
     github: "https://github.com/NilamXSC/housingPrice-prediction",
     live: "https://housingprice-predictionbynilam.streamlit.app/",
   },
   {
-    title: "Get Fit With Me — Landing Page",
-    desc: "A modern, responsive landing page for personal trainers with smooth animations and CTAs.",
+    title: "Get Fit With Me - Trainer Landing Page",
+    desc: "GetFit is a modern, fully responsive landing page designed specifically for personal trainers, fitness coaches, and wellness professionals who want to establish a strong online presence and attract more clients. With sleek design aesthetics, smooth animations, and conversion-optimized call-to-actions (CTAs), GetFit seamlessly combines style, speed, and functionality to deliver an exceptional user experience.",
     img: "/assets/projects/getfit.JPG",
     github: "https://github.com/NilamXSC/getfitwithme",
     live: "https://getfitwithme.vercel.app/",
