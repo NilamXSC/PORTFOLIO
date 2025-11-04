@@ -100,6 +100,19 @@ export default function BackgroundMesh() {
   const hasWindow = typeof window !== "undefined";
   const width = hasWindow ? window.innerWidth : 1200;
 
+  // If on small screens (mobile/tablet), do not render the background at all.
+  // This guard prevents mounting and any Three.js work on small devices.
+  // Threshold: 768px (adjust if you'd prefer a different breakpoint)
+  if (hasWindow) {
+    try {
+      if (window.matchMedia && window.matchMedia("(max-width: 768px)").matches) {
+        return null;
+      }
+    } catch (err) {
+      // ignore matchMedia errors, continue to render if unavailable
+    }
+  }
+
   // configuration: choose larger airy network
   const POINT_COUNT_X = width < 900 ? 14 : 24;
   const POINT_COUNT_Y = width < 900 ? 10 : 16;
@@ -203,22 +216,6 @@ export default function BackgroundMesh() {
 
   // DPR clamp
   const [dpr] = useState(() => Math.min(1.5, hasWindow ? window.devicePixelRatio || 1 : 1));
-
-  // mobile fallback: if tiny screen, just render a single slow DebugBox-ish wireframe big shape
-  if (hasWindow && window.innerWidth < 420) {
-    return (
-      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", width: "100%", height: "100vh" }} aria-hidden>
-        <Canvas dpr={dpr} camera={{ position: [0, 0, 14], fov: 55 }} style={{ width: "100%", height: "100%" }}>
-          <color attach="background" args={["#071026"]} />
-          <ambientLight intensity={0.6} />
-          <mesh rotation={[0, 0, 0]} scale={[10, 6, 1]}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshBasicMaterial color={"#6ea7ff"} wireframe opacity={0.06} transparent />
-          </mesh>
-        </Canvas>
-      </div>
-    );
-  }
 
   // main render: shader-like subtle background is optional; here we render only the network (keeps debug vibe)
   return (
