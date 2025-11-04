@@ -5,7 +5,6 @@ import AnimatedButton from "./AnimatedButton";
 import AnimatedHeadline from "./AnimatedHeadline";
 
 /* Import assets from src so Vite bundles them */
-import logoImg from "../assets/logo-symbol.png";
 import profileImg from "../assets/profile.jpg";
 import githubIcon from "../assets/social/github.svg";
 import linkedinIcon from "../assets/social/linkedin.svg";
@@ -61,7 +60,7 @@ export default function Hero() {
           margin: 6px 0 12px 0;
           display:flex;
           flex-direction:column;
-          gap: 6px; /* visible gap between the animated lines */
+          gap: 10px; /* visible gap between the animated lines */
           align-items:flex-start;
         }
 
@@ -200,24 +199,11 @@ export default function Hero() {
       `}</style>
 
       <div className="hero-left">
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14, justifyContent: "center" }}>
-          <div className="brand-logo" style={{ width: 46, height: 46 }}>
-            <img
-              src={logoImg}
-              alt="Arc of Nilam logo"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              onError={(e) => { e.currentTarget.style.display = "none"; }}
-            />
-          </div>
-          <div style={{ display: "none" }}>
-            {/* kept for accessibility/structure if needed in future */}
-            <div style={{ fontWeight: 700 }}>Arc of Nilam</div>
-          </div>
-        </div>
+        {/* logo + heading removed as requested */}
 
-        {/* Animated headline — three separate lines to keep them stable */}
+        {/* Animated headline — three separate lines to keep them stable and exact */}
         <div className="hero-headline hero-headline--center" aria-hidden>
-          <AnimatedHeadline text={"Hi, I'm Nilam,"} />
+          <AnimatedHeadline text={"Hi, I'm Nilam"} />
           <AnimatedHeadline text={"Welcoming You To My"} />
           <AnimatedHeadline text={"Portfolio"} />
         </div>
