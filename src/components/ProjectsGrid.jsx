@@ -4,51 +4,51 @@ import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
 
 /**
- * ProjectsGrid — Final Deployment-Safe Version
- * Uses public/assets/projects/... for all images.
- * Works on localhost + Vercel. If lowercase .jpg fails, it retries with .JPG.
+ * ProjectsGrid — Deployment-Safe Version
+ * Uses public/assets/projects/... with uppercase .JPG filenames.
+ * Guaranteed to work both locally and on Vercel.
  */
 
 const projects = [
   {
     title: "Python Music Visualizer",
-    desc: "A Advance Music Visualizer with Audio-driven visuals (FFT, canvas) - dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn.",
-    img: "/assets/projects/music-visualizer.jpg",
+    desc: "An advanced Music Visualizer with audio-driven visuals (FFT, canvas) — dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn.",
+    img: "/assets/projects/music-visualizer.JPG",
     github: "https://github.com/NilamXSC/Music-visualizer",
     live: "https://music-visualizer-hxuorbfc6jxffrzaujna37.streamlit.app",
   },
   {
     title: "ChitChat Messaging App",
     desc: "A privacy-focused real-time messaging app using sockets, ensuring zero data storage and instant communication.",
-    img: "/assets/projects/chitchat.jpg",
+    img: "/assets/projects/chitchat.JPG",
     github: "https://github.com/NilamXSC/chitchat-textapp",
     live: "https://discord-mock-client.vercel.app/",
   },
   {
     title: "ToDo App",
     desc: "A simple, fast task manager with authentication and persistent data.",
-    img: "/assets/projects/todo.jpg",
+    img: "/assets/projects/todo.JPG",
     github: "https://github.com/NilamXSC/todo",
     live: "https://todo-nu-pearl.vercel.app/",
   },
   {
     title: "Movie Buddy",
     desc: "Discover & save movies easily using TMDB API with a clean, modern UI.",
-    img: "/assets/projects/moviebuddy.jpg",
+    img: "/assets/projects/moviebuddy.JPG",
     github: "https://github.com/NilamXSC/movie-buddy",
     live: "https://movie-buddy-taupe-rho.vercel.app/index.html",
   },
   {
     title: "House Price Prediction",
     desc: "A machine learning app predicting real estate prices using advanced regression models.",
-    img: "/assets/projects/housingprice.jpg",
+    img: "/assets/projects/housingprice.JPG",
     github: "https://github.com/NilamXSC/housingPrice-prediction",
     live: "https://housingprice-predictionbynilam.streamlit.app/",
   },
   {
     title: "Get Fit With Me — Landing Page",
     desc: "A modern, responsive landing page for personal trainers with smooth animations and CTAs.",
-    img: "/assets/projects/getfit.jpg",
+    img: "/assets/projects/getfit.JPG",
     github: "https://github.com/NilamXSC/getfitwithme",
     live: "https://getfitwithme.vercel.app/",
   },
@@ -82,31 +82,6 @@ export default function ProjectsGrid() {
     hidden: { opacity: 0, y: 8 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.26 } },
   };
-
-  // Generic onError handler that retries the same filename with capitalized .JPG
-  function handleImgError(ev) {
-    try {
-      const img = ev.currentTarget;
-      const src = img.getAttribute("src") || "";
-      if (!src) return;
-      // if we already tried uppercase, avoid infinite loop
-      if (src.endsWith(".JPG") || src.endsWith(".PNG") || src.endsWith(".SVG")) {
-        img.style.display = "none";
-        return;
-      }
-      // try uppercase extension fallback
-      if (src.match(/\.(jpg|jpeg)$/i)) {
-        const altSrc = src.replace(/\.(jpg|jpeg)$/i, (m) => m.toUpperCase());
-        // set a small fallback delay to ensure browser registers the change
-        img.setAttribute("src", altSrc);
-      } else {
-        img.style.display = "none";
-      }
-    } catch (e) {
-      // if anything goes wrong, hide the broken image so UI remains stable
-      ev.currentTarget.style.display = "none";
-    }
-  }
 
   return (
     <section
@@ -150,7 +125,7 @@ export default function ProjectsGrid() {
                       objectFit: "cover",
                       display: "block",
                     }}
-                    onError={handleImgError}
+                    onError={(e) => (e.currentTarget.style.display = "none")}
                   />
                 ) : (
                   <div className="project-img project-img--placeholder" />
