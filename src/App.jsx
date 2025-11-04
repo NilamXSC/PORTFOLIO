@@ -1,5 +1,6 @@
 // src/App.jsx
 import React, { useEffect, useState } from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Sidebar from "./components/Sidebar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -26,28 +27,30 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] relative">
-      {/* background mesh behind everything */}
-      <BackgroundMesh />
+    <ErrorBoundary>
+      <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] relative">
+        {/* background mesh behind everything */}
+        <BackgroundMesh />
 
-      {/* responsive helpers (viewport + small-screen tweaks) */}
-      <ResponsiveAdjustments />
+        {/* responsive helpers (viewport + small-screen tweaks) */}
+        <ResponsiveAdjustments />
 
-      {/* sidebar */}
-      <Sidebar />
+        {/* sidebar */}
+        <Sidebar />
 
-      {/* main content area */}
-      <main className="main-with-sidebar relative z-10">
-        <div className="md:pt-0 pt-16">
-          <Hero />
-          <About />
-          <ProjectsGrid />
-          <TechStack />
-          <CertificatesGallery />
-          <ContactSection />
-          <Footer />
-        </div>
-      </main>
-    </div>
+        {/* main content area */}
+        <main className="main-with-sidebar relative z-10">
+          <div className="md:pt-0 pt-16">
+            <Hero />
+            <About />
+            <ProjectsGrid />
+            <TechStack />
+            <CertificatesGallery />
+            <ContactSection />
+            <Footer />
+          </div>
+        </main>
+      </div>
+    </ErrorBoundary>
   );
 }
