@@ -59,7 +59,14 @@ export default function Hero() {
         /* Headline container sizing controlled by AnimatedHeadline but we add responsive safeties */
         .hero-headline {
           margin: 6px 0 12px 0;
+          display:flex;
+          flex-direction:column;
+          gap: 6px; /* visible gap between the animated lines */
+          align-items:flex-start;
         }
+
+        /* center the headline on small screens */
+        .hero-headline--center { align-items:center; text-align:center; }
 
         /* CTA row - desktop horizontal */
         .cta-row {
@@ -68,13 +75,14 @@ export default function Hero() {
           grid-auto-columns: min-content;
           gap: 12px;
           align-items: center;
+          margin-top: 18px; /* gap between intro and buttons */
         }
 
         /* Social icons row */
         .connect-icons {
           display: flex;
           gap: 12px;
-          margin-top: 18px;
+          margin-top: 22px; /* increased gap between buttons and icons */
           align-items: center;
           flex-wrap: nowrap;
         }
@@ -139,12 +147,13 @@ export default function Hero() {
           }
 
           /* headline: smaller and better line-height */
+          .hero-headline { align-items:center; text-align:center; gap: 8px; }
           .hero-headline .animated-headline__visual,
           .hero-headline h1, 
           .hero-headline h2 {
             font-size: 34px !important;
             line-height: 1.02 !important;
-            letter-spacing: -0.6px;
+            letter-spacing: -0.4px;
           }
 
           /* CTA: two column grid to avoid huge vertical stack */
@@ -153,7 +162,7 @@ export default function Hero() {
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 12px;
             justify-items: center;
-            margin: 8px auto 0;
+            margin: 14px auto 0;
             max-width: 420px;
           }
 
@@ -167,7 +176,7 @@ export default function Hero() {
           .connect-icons {
             justify-content: center;
             gap: 14px;
-            margin-top: 16px;
+            margin-top: 18px;
           }
           .connect-icon { width: 48px; height: 48px; border-radius: 12px; }
           .connect-icon img { width: 22px; height: 22px; }
@@ -185,13 +194,13 @@ export default function Hero() {
             font-size: 28px !important;
             line-height: 1.04 !important;
           }
-          .cta-row { gap: 10px; }
+          .cta-row { gap: 10px; margin-top: 12px; }
           .connect-icons { gap: 10px; margin-top: 12px; }
         }
       `}</style>
 
       <div className="hero-left">
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10, justifyContent: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14, justifyContent: "center" }}>
           <div className="brand-logo" style={{ width: 46, height: 46 }}>
             <img
               src={logoImg}
@@ -206,14 +215,22 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Animated headline — keep wrapper class for responsive targeting */}
-        <div className="hero-headline">
-          <AnimatedHeadline text={"Hi, Nilam Here,         Welcoming you to my Portfolio"} />
+        {/* Animated headline — three separate lines to keep them stable */}
+        <div className="hero-headline hero-headline--center" aria-hidden>
+          <AnimatedHeadline text={"Hi, I'm Nilam,"} />
+          <AnimatedHeadline text={"Welcoming You To My"} />
+          <AnimatedHeadline text={"Portfolio"} />
         </div>
+
+        {/* visible gap before the intro */}
+        <div style={{ height: 12 }} aria-hidden />
 
         <p className="lead" style={{ maxWidth: 820, margin: "8px auto 0", textAlign: "center" }}>
           I’m a MERN Fullstack Developer and DevOps professional passionate about harnessing Cloud, AI, and Data Science to build projects that simplify everyday life.
         </p>
+
+        {/* visible gap between intro and buttons */}
+        <div style={{ height: 12 }} aria-hidden />
 
         {/* CTA row */}
         <div className="cta-row" style={{ marginTop: 18 }}>
@@ -222,6 +239,9 @@ export default function Hero() {
           <AnimatedButton variant="nature" onClick={() => scrollToId("tech")}>Tech Stack</AnimatedButton>
           <AnimatedButton variant="glass" onClick={() => scrollToId("contact")}>Contact</AnimatedButton>
         </div>
+
+        {/* small gap between buttons and icons */}
+        <div style={{ height: 8 }} aria-hidden />
 
         {/* SOCIAL ICONS: GitHub, LinkedIn, Instagram, YouTube, Email, LeetCode */}
         <div className="connect-icons" role="navigation" aria-label="social links">
