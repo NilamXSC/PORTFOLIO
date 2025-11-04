@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useEffect, useState } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Sidebar from "./components/Sidebar";
@@ -14,17 +15,22 @@ import BackgroundMesh from "./components/BackgroundMesh";
 
 export default function App() {
   const [openConnect, setOpenConnect] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia("(max-width: 768px)").matches : false
+  );
 
-  // Detect mobile viewport
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    const mq = window.matchMedia("(max-width: 768px)");
+    const handler = (e) => setIsMobile(e.matches);
+    // some browsers use addEventListener
+    if (mq.addEventListener) mq.addEventListener("change", handler);
+    else mq.addListener(handler);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", handler);
+      else mq.removeListener(handler);
+    };
   }, []);
 
-  // Handle event listener for connect drawer
   useEffect(() => {
     const onOpenConnect = () => setOpenConnect(true);
     window.addEventListener("openConnect", onOpenConnect);
@@ -36,7 +42,7 @@ export default function App() {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] relative">
-        {/* ✅ Background mesh only for desktop */}
+        {/* BackgroundMesh is only mounted on non-mobile devices */}
         {!isMobile && <BackgroundMesh />}
 
         <ResponsiveAdjustments />
@@ -45,10 +51,8 @@ export default function App() {
 
         <main className="main-with-sidebar relative z-10">
           <div className="md:pt-0 pt-16">
-            {/* ✅ Mobile Hero first so it takes over small screens */}
+            {/* HeroMobile will show on small screens; Hero will show on larger */}
             <HeroMobile />
-
-            {/* ✅ Desktop Hero visible only on large screens */}
             {!isMobile && <Hero />}
 
             <About />
