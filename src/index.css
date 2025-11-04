@@ -1190,3 +1190,13 @@ body {
     height: 22px !important;
   }
 }
+/* === Safety: completely hide background mesh on small screens === */
+@media (max-width: 768px) {
+  .background-mesh,
+  .background-mesh * {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
