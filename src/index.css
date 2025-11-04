@@ -1,9 +1,7 @@
-/* src/index.css — Tailwind + custom theme + animations (rich, muted professional palette) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Theme variables (muted, professional) */
 :root {
   --bg: #F7F9FB;
   --card: #FFFFFF;
@@ -16,7 +14,6 @@
   --radius: 14px;
 }
 
-/* Dark mode variables (kept minimal) */
 :root.dark {
   --bg: #071023;
   --card: #071B2B;
@@ -25,7 +22,6 @@
   --glass: rgba(255,255,255,0.04);
 }
 
-/* Base styles */
 html,
 body,
 #root {
@@ -42,7 +38,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* container helper */
 .container-site {
   max-width: var(--site-max);
   margin-left: auto;
@@ -51,7 +46,6 @@ body {
   padding-right: 1.5rem;
 }
 
-/* subtle glass card */
 .card {
   background: var(--card);
   border-radius: var(--radius);
@@ -59,7 +53,6 @@ body {
   box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
 }
 
-/* hero visuals */
 .hero-outer {
   min-height: 74vh;
   display: flex;
@@ -77,7 +70,6 @@ body {
   align-items: center;
 }
 
-/* animated line (SVG) container */
 .animated-line {
   width: 36px;
   height: 200px;
@@ -90,7 +82,6 @@ body {
   stroke-linejoin: round;
 }
 
-/* hero heading */
 .h-hero {
   font-size: clamp(28px, 5.2vw, 48px);
   line-height: 1.02;
@@ -103,7 +94,6 @@ body {
   margin: 0 0 18px 0;
 }
 
-/* animated image card */
 .preview-card {
   width: 100%;
   max-width: 520px;
@@ -117,7 +107,6 @@ body {
   box-shadow: 0 20px 50px rgba(11, 21, 32, 0.12);
 }
 
-/* subtle floating motion for image — CSS keyframe */
 @keyframes floatY {
   0% {
     transform: translateY(0px);
@@ -133,7 +122,6 @@ body {
   animation: floatY 5.6s ease-in-out infinite;
 }
 
-/* CTA group — plain CSS replacement for @apply */
 .cta-primary {
   display: inline-flex;
   align-items: center;
