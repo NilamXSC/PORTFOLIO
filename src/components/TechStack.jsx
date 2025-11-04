@@ -1,11 +1,5 @@
-// src/components/TechStack.jsx
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
-
-/**
- * TechStack - 3-ring solar-system style orbiting icons around a central "Tech Stack" bubble.
- * Final version: slightly smaller, slow rotation, and balanced layout.
- */
 
 const INNER = ["react", "nodedotjs", "vite", "tailwindcss", "prisma", "postgresql"];
 const MIDDLE = ["mongodb", "docker", "socket", "streamlit", "fastapi", "fastify", "framer"];
@@ -14,7 +8,6 @@ const OUTER = ["python", "pandas", "scikitlearn", "pytorch", "git", "nextdotjs",
 export default function TechStack() {
   const reduceMotion = useReducedMotion();
 
-  // Layout sizes — smaller, cleaner look
   const centerSize = 200;
   const innerRadiusDesktop = 180;
   const middleRadiusDesktop = 290;
@@ -23,11 +16,9 @@ export default function TechStack() {
   const middleRadiusMobile = 160;
   const outerRadiusMobile = 220;
 
-  // Icon bubble sizes
   const iconSizeDesktop = 80;
   const iconSizeMobile = 56;
 
-  // Animation durations (very slow)
   const outerDuration = 220;
   const middleDuration = 160;
   const innerDuration = 120;
