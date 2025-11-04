@@ -1,3 +1,4 @@
+// src/components/ProjectsGrid.jsx
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
@@ -5,7 +6,7 @@ import AnimatedHeadline from "./AnimatedHeadline";
 /**
  * ProjectsGrid — Final Deployment-Safe Version
  * Uses public/assets/projects/... for all images.
- * Works perfectly on localhost + Vercel.
+ * Works on localhost + Vercel. If lowercase .jpg fails, it retries with .JPG.
  */
 
 const projects = [
@@ -82,6 +83,31 @@ export default function ProjectsGrid() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.26 } },
   };
 
+  // Generic onError handler that retries the same filename with capitalized .JPG
+  function handleImgError(ev) {
+    try {
+      const img = ev.currentTarget;
+      const src = img.getAttribute("src") || "";
+      if (!src) return;
+      // if we already tried uppercase, avoid infinite loop
+      if (src.endsWith(".JPG") || src.endsWith(".PNG") || src.endsWith(".SVG")) {
+        img.style.display = "none";
+        return;
+      }
+      // try uppercase extension fallback
+      if (src.match(/\.(jpg|jpeg)$/i)) {
+        const altSrc = src.replace(/\.(jpg|jpeg)$/i, (m) => m.toUpperCase());
+        // set a small fallback delay to ensure browser registers the change
+        img.setAttribute("src", altSrc);
+      } else {
+        img.style.display = "none";
+      }
+    } catch (e) {
+      // if anything goes wrong, hide the broken image so UI remains stable
+      ev.currentTarget.style.display = "none";
+    }
+  }
+
   return (
     <section
       id="projects"
@@ -124,7 +150,7 @@ export default function ProjectsGrid() {
                       objectFit: "cover",
                       display: "block",
                     }}
-                    onError={(e) => (e.currentTarget.style.display = "none")}
+                    onError={handleImgError}
                   />
                 ) : (
                   <div className="project-img project-img--placeholder" />
