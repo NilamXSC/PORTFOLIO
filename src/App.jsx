@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useEffect, useState } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Sidebar from "./components/Sidebar";
@@ -11,13 +10,11 @@ import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import ResponsiveAdjustments from "./components/ResponsiveAdjustments";
 
-// background mesh animation
 import BackgroundMesh from "./components/BackgroundMesh";
 
 export default function App() {
   const [openConnect, setOpenConnect] = useState(false);
 
-  // event listener for connect drawer (if used elsewhere)
   useEffect(() => {
     const onOpenConnect = () => setOpenConnect(true);
     window.addEventListener("openConnect", onOpenConnect);
@@ -29,16 +26,12 @@ export default function App() {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] relative">
-        {/* background mesh behind everything */}
         <BackgroundMesh />
 
-        {/* responsive helpers (viewport + small-screen tweaks) */}
         <ResponsiveAdjustments />
 
-        {/* sidebar */}
         <Sidebar />
 
-        {/* main content area */}
         <main className="main-with-sidebar relative z-10">
           <div className="md:pt-0 pt-16">
             <Hero />
