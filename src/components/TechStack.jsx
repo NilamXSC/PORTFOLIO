@@ -1,12 +1,11 @@
 // src/components/TechStack.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 /**
  * TechStack - 3-ring solar-system style orbiting icons around a central "Tech Stack" bubble.
  * Updated: stronger, more visible bubbles and Vite-safe SVG loading (import.meta.url).
- * Mobile behavior: on small screens the orbit animations are disabled and rings are hidden;
- * only a smaller center bubble is shown to prevent horizontal sliding/overflow.
+ * Mobile behavior: smaller radii, icons, and animations paused (static layout) to avoid sliding/overflow.
  */
 
 const INNER = ["react", "nodedotjs", "vite", "tailwindcss", "prisma", "postgresql"];
@@ -16,14 +15,15 @@ const OUTER = ["python", "pandas", "scikitlearn", "pytorch", "git", "nextdotjs",
 export default function TechStack() {
   const reduceMotion = useReducedMotion();
 
-  // Layout sizes — unchanged logic
+  // Layout sizes — unchanged logic (desktop values)
   const centerSize = 200;
   const innerRadiusDesktop = 180;
   const middleRadiusDesktop = 290;
   const outerRadiusDesktop = 420;
-  const innerRadiusMobile = 100;
-  const middleRadiusMobile = 160;
-  const outerRadiusMobile = 220;
+  // mobile radii (smaller, closer rings)
+  const innerRadiusMobile = 80;
+  const middleRadiusMobile = 140;
+  const outerRadiusMobile = 200;
 
   // Icon bubble sizes
   const iconSizeDesktop = 80;
@@ -33,6 +33,29 @@ export default function TechStack() {
   const outerDuration = 220;
   const middleDuration = 160;
   const innerDuration = 120;
+
+  // track whether we're on small screen so we can switch radii and pause animation
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth <= 720 : false
+  );
+
+  useEffect(() => {
+    function onResize() {
+      const mobile = window.innerWidth <= 720;
+      setIsMobile(mobile);
+    }
+    window.addEventListener("resize", onResize, { passive: true });
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // choose radii and icon size based on screen
+  const innerRadius = isMobile ? innerRadiusMobile : innerRadiusDesktop;
+  const middleRadius = isMobile ? middleRadiusMobile : middleRadiusDesktop;
+  const outerRadius = isMobile ? outerRadiusMobile : outerRadiusDesktop;
+  const iconSize = isMobile ? iconSizeMobile : iconSizeDesktop;
+
+  // animation play state: paused on mobile or reduceMotion
+  const animationPaused = reduceMotion || isMobile ? "paused" : "running";
 
   function computeTransform(idx, N, radius) {
     const angle = (idx / N) * Math.PI * 2;
@@ -58,7 +81,7 @@ export default function TechStack() {
           position:relative;
           display:grid;
           place-items:center;
-          overflow: visible; /* keep visible by default */
+          overflow: visible;
         }
 
         .orbit { position:absolute; inset:0; display:block; transform-origin:center; }
@@ -79,14 +102,13 @@ export default function TechStack() {
           transition: transform 260ms ease, box-shadow 260ms ease, filter 260ms ease;
           will-change:transform;
           box-shadow: 0 18px 60px rgba(12,18,32,0.18), inset 0 1px 0 rgba(255,255,255,0.02);
-          border: 1px solid rgba(90,160,255,0.20); /* subtle blue-ish border for contrast */
+          border: 1px solid rgba(90,160,255,0.20);
           overflow:hidden;
           background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(2,6,23,0.02));
           backdrop-filter: blur(3px);
           filter: saturate(1.05);
         }
 
-        /* glossy highlight for professional sheen */
         .orb-item::after {
           content: "";
           position: absolute;
@@ -102,7 +124,6 @@ export default function TechStack() {
           opacity: 0.95;
         }
 
-        /* inner disc with a mild color tint to make icons pop */
         .orb-item .orb-bg {
           position:absolute; inset:0; border-radius:999px;
           background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.16), rgba(6,30,50,0.06));
@@ -113,7 +134,6 @@ export default function TechStack() {
           position:relative; z-index: 2; width: 74%; height:74%; display:flex; align-items:center; justify-content:center;
         }
 
-        /* ensure svg visibility: no extra filters that kill color, allow full size */
         .orb-item img { width: 100%; height: 100%; object-fit:contain; display:block; filter: drop-shadow(0 10px 20px rgba(2,6,23,0.14)); }
 
         .orb-item:hover { transform: scale(1.12); box-shadow: 0 36px 110px rgba(2,6,23,0.26); }
@@ -140,30 +160,15 @@ export default function TechStack() {
           .orb-item { transition: none !important; transform: none !important; }
         }
 
-        /* -----------------------
-           MOBILE / SMALL SCREENS
-           - hide orbit rings and items
-           - stop animations
-           - shrink the orbit-wrap and center bubble
-           - prevent horizontal overflow / sliding
-           ----------------------- */
+        /* mobile adjustments: smaller visual sizes, no animation (paused), prevents horizontal overflow */
         @media (max-width: 720px) {
-          .orbit { 
-            display: none !important;         /* hide rotating rings entirely */
-            animation: none !important;       /* extra safety to stop any animation */
-          }
-          .orb-item { display: none !important; } /* safety: hide any absolutely positioned items */
-
-          /* shrink the orbit-wrap to a compact box centered in flow */
           .orbit-wrap {
-            width: min(280px, 86vw) !important;
-            height: min(280px, 86vw) !important;
-            overflow: hidden !important; /* prevent overflow/slide */
-            position: relative !important;
+            /* final computed width is set inline; these are safety bounds */
+            max-width: 86vw;
+            max-height: 86vw;
+            overflow: hidden;
             margin: 0 auto;
           }
-
-          /* show only a smaller center bubble (no animation) */
           .center-bubble {
             width: 120px !important;
             height: 120px !important;
@@ -173,17 +178,10 @@ export default function TechStack() {
             backdrop-filter: blur(3px);
           }
           .center-bubble .label { font-size: 1rem !important; padding: 6px; }
-
-          /* ensure the section doesn't create horizontal scroll */
           section#tech { overflow-x: hidden; }
-
-          /* disable animation-related transforms on the center bubble */
-          .center-bubble { transform: none !important; transition: none !important; }
         }
 
         @media (max-width: 420px) {
-          /* even smaller center on tiny phones */
-          .orbit-wrap { width: min(240px, 86vw) !important; height: min(240px, 86vw) !important; }
           .center-bubble { width: 100px !important; height: 100px !important; }
           .center-bubble .label { font-size: 0.95rem !important; }
         }
@@ -193,8 +191,8 @@ export default function TechStack() {
         <div
           className="orbit-wrap"
           style={{
-            width: `${outerRadiusDesktop * 2 + iconSizeDesktop}px`,
-            height: `${outerRadiusDesktop * 2 + iconSizeDesktop}px`,
+            width: `${outerRadius * 2 + iconSize}px`,
+            height: `${outerRadius * 2 + iconSize}px`,
           }}
         >
           {/* OUTER ring */}
@@ -205,13 +203,13 @@ export default function TechStack() {
               animationDuration: `${outerDuration}s`,
               animationTimingFunction: "linear",
               animationIterationCount: "infinite",
-              animationPlayState: reduceMotion ? "paused" : "running",
+              animationPlayState: animationPaused,
             }}
           >
             {OUTER.map((slug, idx) => {
-              const { x, y, deg } = computeTransform(idx, OUTER.length, outerRadiusDesktop);
+              const { x, y, deg } = computeTransform(idx, OUTER.length, outerRadius);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
-              const size = iconSizeDesktop;
+              const size = iconSize;
               // Vite-safe SVG URL so icons resolve both in dev and production
               const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
@@ -246,13 +244,13 @@ export default function TechStack() {
               animationDuration: `${middleDuration}s`,
               animationTimingFunction: "linear",
               animationIterationCount: "infinite",
-              animationPlayState: reduceMotion ? "paused" : "running",
+              animationPlayState: animationPaused,
             }}
           >
             {MIDDLE.map((slug, idx) => {
-              const { x, y, deg } = computeTransform(idx, MIDDLE.length, middleRadiusDesktop);
+              const { x, y, deg } = computeTransform(idx, MIDDLE.length, middleRadius);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
-              const size = iconSizeDesktop;
+              const size = iconSize;
               const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
                 <div
@@ -286,13 +284,13 @@ export default function TechStack() {
               animationDuration: `${innerDuration}s`,
               animationTimingFunction: "linear",
               animationIterationCount: "infinite",
-              animationPlayState: reduceMotion ? "paused" : "running",
+              animationPlayState: animationPaused,
             }}
           >
             {INNER.map((slug, idx) => {
-              const { x, y, deg } = computeTransform(idx, INNER.length, innerRadiusDesktop);
+              const { x, y, deg } = computeTransform(idx, INNER.length, innerRadius);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
-              const size = iconSizeDesktop;
+              const size = iconSize;
               const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
                 <div
@@ -321,16 +319,18 @@ export default function TechStack() {
           {/* center bubble */}
           <motion.div
             className="center-bubble"
-            initial={{ scale: 0.98, opacity: 0 }}
+            initial={{ scale: isMobile ? 1 : 0.98, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.9, type: "spring", stiffness: 88, damping: 12 }}
             viewport={{ once: true }}
+            style={{ pointerEvents: "none" }}
           >
             <div className="label">Tech Stack</div>
           </motion.div>
         </div>
 
-        <div className="tech-sub">
+        <div className="tech-sub" aria-hidden>
+          {/* optional subtitle space — left blank intentionally */}
         </div>
       </div>
     </section>
