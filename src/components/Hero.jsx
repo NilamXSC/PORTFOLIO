@@ -61,10 +61,10 @@ export default function Hero() {
           display:flex;
           flex-direction:column;
           gap: 10px; /* visible gap between the animated lines */
-          align-items:flex-start;
+          align-items:flex-start; /* LEFT align on desktop */
         }
 
-        /* center the headline on small screens */
+        /* center the headline on small screens (overridden in mobile media query) */
         .hero-headline--center { align-items:center; text-align:center; }
 
         /* CTA row - desktop horizontal */
@@ -145,7 +145,7 @@ export default function Hero() {
             margin-top: 6px;
           }
 
-          /* headline: smaller and better line-height */
+          /* headline: smaller and better line-height; center on mobile */
           .hero-headline { align-items:center; text-align:center; gap: 8px; }
           .hero-headline .animated-headline__visual,
           .hero-headline h1, 
@@ -202,8 +202,9 @@ export default function Hero() {
         {/* logo + heading removed as requested */}
 
         {/* Animated headline — three separate lines to keep them stable and exact */}
-        <div className="hero-headline hero-headline--center" aria-hidden>
-          <AnimatedHeadline text={"Hi, Nilam Here,"} />
+        {/* NOTE: left aligned on desktop (align-items:flex-start), centered on mobile via media query */}
+        <div className="hero-headline" aria-hidden>
+          <AnimatedHeadline text={"Hi, I'm Nilam"} />
           <AnimatedHeadline text={"Welcoming You To My"} />
           <AnimatedHeadline text={"Portfolio"} />
         </div>
@@ -211,7 +212,7 @@ export default function Hero() {
         {/* visible gap before the intro */}
         <div style={{ height: 12 }} aria-hidden />
 
-        <p className="lead" style={{ maxWidth: 820, margin: "8px auto 0", textAlign: "center" }}>
+        <p className="lead" style={{ maxWidth: 820, margin: "8px 0 0", textAlign: "left" }}>
           I’m a MERN Fullstack Developer and DevOps professional passionate about harnessing Cloud, AI, and Data Science to build projects that simplify everyday life.
         </p>
 
