@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 
 /**
  * TechStack - 3-ring solar-system style orbiting icons around a central "Tech Stack" bubble.
- * Final version: slightly smaller, slow rotation, and balanced layout.
+ * Updated: stronger, more visible bubbles and Vite-safe SVG loading (import.meta.url).
  */
 
 const INNER = ["react", "nodedotjs", "vite", "tailwindcss", "prisma", "postgresql"];
@@ -14,7 +14,7 @@ const OUTER = ["python", "pandas", "scikitlearn", "pytorch", "git", "nextdotjs",
 export default function TechStack() {
   const reduceMotion = useReducedMotion();
 
-  // Layout sizes — smaller, cleaner look
+  // Layout sizes — unchanged logic
   const centerSize = 200;
   const innerRadiusDesktop = 180;
   const middleRadiusDesktop = 290;
@@ -64,7 +64,7 @@ export default function TechStack() {
         @keyframes orbit-middle { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
         @keyframes orbit-inner { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* orb item: increased visibility: subtle silvery gradient, stronger border + glow */
+        /* stronger visible orb: richer gradient, colored border & glow */
         .orb-item {
           position:absolute;
           top:50%;
@@ -73,34 +73,36 @@ export default function TechStack() {
           align-items:center;
           justify-content:center;
           border-radius:999px;
-          transition: transform 260ms ease, box-shadow 260ms ease;
+          transition: transform 260ms ease, box-shadow 260ms ease, filter 260ms ease;
           will-change:transform;
-          box-shadow: 0 16px 44px rgba(2,6,23,0.12), inset 0 1px 0 rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.08);
+          box-shadow: 0 18px 60px rgba(12,18,32,0.18), inset 0 1px 0 rgba(255,255,255,0.02);
+          border: 1px solid rgba(90,160,255,0.20); /* subtle blue-ish border for contrast */
           overflow:hidden;
-          background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(2,6,23,0.02));
-          backdrop-filter: blur(2px);
+          background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(2,6,23,0.02));
+          backdrop-filter: blur(3px);
+          filter: saturate(1.05);
         }
 
-        /* small glossy highlight layer (gives the silvery sheen) */
+        /* glossy highlight for professional sheen */
         .orb-item::after {
           content: "";
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
-          height: 55%;
+          height: 56%;
           border-top-left-radius: 999px;
           border-top-right-radius: 999px;
-          background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.00));
+          background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.00));
           pointer-events: none;
           mix-blend-mode: screen;
+          opacity: 0.95;
         }
 
+        /* inner disc with a mild color tint to make icons pop */
         .orb-item .orb-bg {
           position:absolute; inset:0; border-radius:999px;
-          /* stronger subtle inner radial so the icon sits on a visible disc */
-          background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.14), rgba(0,0,0,0.04));
+          background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.16), rgba(6,30,50,0.06));
           opacity: 1;
         }
 
@@ -108,9 +110,10 @@ export default function TechStack() {
           position:relative; z-index: 2; width: 74%; height:74%; display:flex; align-items:center; justify-content:center;
         }
 
-        .orb-item img { width: 100%; height: 100%; object-fit:contain; display:block; filter: drop-shadow(0 8px 18px rgba(2,6,23,0.12)); }
+        /* ensure svg visibility: no extra filters that kill color, allow full size */
+        .orb-item img { width: 100%; height: 100%; object-fit:contain; display:block; filter: drop-shadow(0 10px 20px rgba(2,6,23,0.14)); }
 
-        .orb-item:hover { transform: scale(1.12); box-shadow: 0 36px 110px rgba(2,6,23,0.22); }
+        .orb-item:hover { transform: scale(1.12); box-shadow: 0 36px 110px rgba(2,6,23,0.26); }
 
         .center-bubble {
           z-index:80;
@@ -120,12 +123,12 @@ export default function TechStack() {
           display:flex;
           align-items:center;
           justify-content:center;
-          background: linear-gradient(180deg, rgba(30,111,235,0.34), rgba(0,168,132,0.16));
-          box-shadow: 0 34px 100px rgba(30,111,235,0.10);
-          border: 1px solid rgba(255,255,255,0.08);
-          backdrop-filter: blur(4px);
+          background: linear-gradient(180deg, rgba(40,140,255,0.36), rgba(3,200,150,0.16));
+          box-shadow: 0 40px 110px rgba(30,111,235,0.12);
+          border: 1px solid rgba(255,255,255,0.10);
+          backdrop-filter: blur(5px);
         }
-        .center-bubble .label { font-weight: 900; font-size: 1.35rem; color: var(--text); text-align:center; text-shadow: 0 2px 8px rgba(2,6,23,0.25); }
+        .center-bubble .label { font-weight: 900; font-size: 1.35rem; color: var(--text); text-align:center; text-shadow: 0 2px 12px rgba(2,6,23,0.32); }
 
         .tech-sub { color: var(--muted); max-width: 880px; text-align:center; font-size:0.95rem; margin-top:6px; }
 
@@ -164,7 +167,8 @@ export default function TechStack() {
               const { x, y, deg } = computeTransform(idx, OUTER.length, outerRadiusDesktop);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
               const size = iconSizeDesktop;
-              const img = `/src/assets/tech/${slug}.svg`;
+              // Vite-safe SVG URL so icons resolve both in dev and production
+              const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
                 <div
                   key={`out-${slug}-${idx}`}
@@ -182,7 +186,7 @@ export default function TechStack() {
                 >
                   <div className="orb-bg" />
                   <div className="orb-content">
-                    <img src={img} alt={slug} onError={(e) => (e.target.style.display = "none")} />
+                    <img src={img} alt={slug} onError={(e) => (e.currentTarget.style.display = "none")} />
                   </div>
                 </div>
               );
@@ -204,7 +208,7 @@ export default function TechStack() {
               const { x, y, deg } = computeTransform(idx, MIDDLE.length, middleRadiusDesktop);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
               const size = iconSizeDesktop;
-              const img = `/src/assets/tech/${slug}.svg`;
+              const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
                 <div
                   key={`mid-${slug}-${idx}`}
@@ -222,7 +226,7 @@ export default function TechStack() {
                 >
                   <div className="orb-bg" />
                   <div className="orb-content">
-                    <img src={img} alt={slug} onError={(e) => (e.target.style.display = "none")} />
+                    <img src={img} alt={slug} onError={(e) => (e.currentTarget.style.display = "none")} />
                   </div>
                 </div>
               );
@@ -244,7 +248,7 @@ export default function TechStack() {
               const { x, y, deg } = computeTransform(idx, INNER.length, innerRadiusDesktop);
               const transform = `translate(${x}px, ${y}px) rotate(${-deg}deg)`;
               const size = iconSizeDesktop;
-              const img = `/src/assets/tech/${slug}.svg`;
+              const img = new URL(`../assets/tech/${slug}.svg`, import.meta.url).href;
               return (
                 <div
                   key={`in-${slug}-${idx}`}
@@ -262,7 +266,7 @@ export default function TechStack() {
                 >
                   <div className="orb-bg" />
                   <div className="orb-content">
-                    <img src={img} alt={slug} onError={(e) => (e.target.style.display = "none")} />
+                    <img src={img} alt={slug} onError={(e) => (e.currentTarget.style.display = "none")} />
                   </div>
                 </div>
               );
