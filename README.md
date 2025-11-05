@@ -1,7 +1,7 @@
 <h1 align="center">My Portfolio Website</h1>
 
 <p align="center">
-  <a href="https://portfolio-neon-mu-87.vercel.app/" target="_blank">
+  <a href="https://nilamxsc.dev" target="_blank">
     <img src="https://img.shields.io/badge/Live%20Portfolio-%23007ACC?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Portfolio Badge" />
   </a>
   <a href="https://github.com/NilamXSC" target="_blank">
