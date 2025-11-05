@@ -76,7 +76,7 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
             >
               <p className="text-base md:text-lg leading-relaxed text-[var(--text)]">
-                Hello, I am <strong className="text-[var(--accent)]">Nilam Chakraborty</strong>, a Full-Stack Developer and a student in Computer Science & Engineering from India. With a passion for building impact-driven, user-centric scalable digital solutions, I work with the MERN stack to bridge the gap between intuitive design and robust backend architecture, hence delivering seamless, high-performance web applications.
+                Hello, I am <strong className="text-[var(--accent)]">Nilam Chakraborty</strong>, a Full-Stack Developer and a student in Computer Science & Engineering from India. I love building projects that makes things simpler. I work with the MERN stack to build intuitive design and robust backend architecture, hence delivering seamless, high-performance and scalable web applications.
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
@@ -84,7 +84,7 @@ export default function About() {
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
-                Beyond coding, I am interested in DevOps and cloud deployment-continuously improving workflows through containerization, CI/CD pipelines, and optimized cloud environments.
+                Beyond Fullstack, I am also interested in DevOps and cloud deployment study, and making projects that can improve workflows through containerization, CI/CD pipelines, and optimized cloud environments.
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
@@ -139,7 +139,7 @@ export default function About() {
               </ul>
 
               <p className="mt-10 text-sm md:text-base text-[var(--muted)] max-w-2xl leading-relaxed">
-                I also enjoy mentoring, collaborating on open-source projects, and crafting delightfully simple user experiences out of complex ideas. If you'd like to collaborate or review my code, please feel free to get in touch.
+                I also enjoy discussing, collaborating on open-source projects, and designing simple user experiences out of complex ideas. If you'd like to collab or review my code, please feel free to contact me.
               </p>
             </motion.div>
           </motion.div>
