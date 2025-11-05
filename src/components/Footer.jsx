@@ -35,7 +35,7 @@ export default function Footer() {
             WebkitTextFillColor: "transparent",
           }}
         >
-          Designed by Nilam Chakraborty
+          Designed & Developed by Nilam Chakraborty
         </motion.p>
       </div>
     </footer>
