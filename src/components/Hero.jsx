@@ -213,7 +213,7 @@ export default function Hero() {
         <div style={{ height: 12 }} aria-hidden />
 
         <p className="lead" style={{ maxWidth: 820, margin: "8px 0 0", textAlign: "left" }}>
-          I’m a MERN Fullstack Developer and DevOps professional passionate about harnessing Cloud, AI, and Data Science to build projects that simplify everyday life.
+          I’m a MERN Fullstack & Python Dev, Passionate about Cloud DevOps with interest in ML/DL & Gen AI.
         </p>
 
         {/* visible gap between intro and buttons */}
