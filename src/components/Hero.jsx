@@ -203,7 +203,7 @@ export default function Hero() {
 
         {/* Animated headline — three separate lines to keep them stable and exact */}
         <div className="hero-headline hero-headline--center" aria-hidden>
-          <AnimatedHeadline text={"Hi, I'm Nilam"} />
+          <AnimatedHeadline text={"Hi, Nilam Here,"} />
           <AnimatedHeadline text={"Welcoming You To My"} />
           <AnimatedHeadline text={"Portfolio"} />
         </div>
@@ -266,7 +266,7 @@ export default function Hero() {
           <div className="photo-wrap">
             <PhotoCard
               src={profileImg}
-              alt="Nilam Sanjib Chakraborty — Fullstack Developer"
+              alt="Nilam Sanjib Chakraborty - Fullstack Developer"
               style={{ maxWidth: "480px" }}
             />
           </div>
