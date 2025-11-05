@@ -204,7 +204,7 @@ export default function Hero() {
         {/* Animated headline — three separate lines to keep them stable and exact */}
         {/* NOTE: left aligned on desktop (align-items:flex-start), centered on mobile via media query */}
         <div className="hero-headline" aria-hidden>
-          <AnimatedHeadline text={"Hi, I'm Nilam"} />
+          <AnimatedHeadline text={"Hi, Nilam Here,"} />
           <AnimatedHeadline text={"Welcoming You To My"} />
           <AnimatedHeadline text={"Portfolio"} />
         </div>
