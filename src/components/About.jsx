@@ -76,7 +76,7 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
             >
               <p className="text-base md:text-lg leading-relaxed text-[var(--text)]">
-                Hello, I am Nilam Chakraborty, a Full-Stack Developer and a student in Computer Science & Engineering from India. With a passion for building impact-driven, user-centric scalable digital solutions, I work with the MERN stack to bridge the gap between intuitive design and robust backend architecture, hence delivering seamless, high-performance web applications.
+                Hello, I am <strong className="text-[var(--accent)]">Nilam Chakraborty</strong>, a Full-Stack Developer and a student in Computer Science & Engineering from India. With a passion for building impact-driven, user-centric scalable digital solutions, I work with the MERN stack to bridge the gap between intuitive design and robust backend architecture, hence delivering seamless, high-performance web applications.
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
@@ -88,8 +88,40 @@ export default function About() {
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
-                I'm always learning, iterating, and collaborating, pushing boundaries to build systems that don't just function but leave a lasting impression. Selected Highlights
+                I'm always learning, iterating, and collaborating, pushing boundaries to build systems that don't just function but leave a lasting impression.
               </p>
+
+              
+             <div className="mt-10">
+                <h3 className="text-2xl font-semibold text-[var(--text)] mb-4">
+                  Core Skills
+                </h3>
+                <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-3">
+                  {[
+                    "React + Vite \u00A0",
+                    "Node.js / Fastify \u00A0",
+                    "Socket.IO (Real-time) \u00A0",
+                    "Prisma + PostgreSQL \u00A0",
+                    "MERN Stack \u00A0",
+                    "Docker / CI-CD \u00A0",
+                    "Render & Vercel \u00A0",
+                    "Zustand & React Query \u00A0",
+                    "ML/DL & GenAI \u00A0",
+                    "Security & Privacy",
+                  ].map((s) => (
+                    <span
+                      key={s}
+                      className="inline-block px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-slate-100 hover:bg-[var(--accent)]/20 hover:scale-105 transition-all duration-200"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <h3 className="text-2xl font-semibold text-[var(--text)] mb-3">
+                  Selected Highlights
+              </h3>
 
               <ul className="list-disc list-inside text-base md:text-lg leading-relaxed text-[var(--muted)] space-y-2 mt-4">
                 <li>
