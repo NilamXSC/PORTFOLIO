@@ -1,4 +1,4 @@
-<h1 align="center">My Portfolio </h1>
+<h1 align="center">My Portfolio Website</h1>
 
 <p align="center">
   <a href="https://portfolio-neon-mu-87.vercel.app/" target="_blank">
@@ -66,8 +66,6 @@ Every section is interactive, lightweight, and tailored for performance — blen
 
 ## 🖼️ Screenshots
 
-> *(You can replace these with your actual image links)*
-
 <p align="center">
   <img src="https://i.ibb.co/0j7TjYB/portfolio-demo-hero.png" alt="Hero Section" width="700" />
   <br/>
@@ -80,13 +78,11 @@ Every section is interactive, lightweight, and tailored for performance — blen
   <em>Showcasing featured projects with Live & Code buttons</em>
 </p>
 
----
+## 🧪 Run Locally 
 
-## 🧪 Run Locally
 
 Clone the project:
 
-```bash
 git clone https://github.com/NilamXSC/PORTFOLIO.git
 
 Install dependencies:
@@ -98,7 +94,6 @@ Start the development server:
 npm run dev
 
 
----
 
 ⚡ Deployment
 
@@ -120,8 +115,6 @@ Steps:
 
 
 
----
-
 🌈 UI Design Highlights
 
 Animated Background Mesh: Built using three.js with optimized shaders.
@@ -134,7 +127,6 @@ Error Boundaries: Resilient handling of dynamic content loading.
 
 
 
----
 
 🧑‍💻 Author
 
@@ -146,7 +138,6 @@ MERN Stack Developer | DevOps Enthusiast | Data Science Explorer
 🐙 GitHub • 🔗 LinkedIn
 
 
----
 
 📊 GitHub Stats & Activity
 
@@ -156,7 +147,7 @@ MERN Stack Developer | DevOps Enthusiast | Data Science Explorer
 </p><p align="center">
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=NilamXSC&theme=react-dark&hide_border=true" width="95%" />
 </p>
----
+
 
 ❤️ Support & Feedback
 
@@ -168,7 +159,6 @@ For feedback, feel free to open an issue or drop me a message.
     <img src="https://img.shields.io/badge/Visit_My_Portfolio-%2300C7B7?style=for-the-badge&logo=react&logoColor=white" alt="Visit Portfolio"/>
   </a>
 </p>
----
 
 <p align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=20&pause=1000&color=00AEEF&center=true&vCenter=true&width=650&lines=Designed+and+Built+with+💙+by+Nilam+Chakraborty;All+Rights+Reserved+©+2025" alt="Footer Animation">
