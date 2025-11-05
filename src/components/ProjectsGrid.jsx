@@ -6,7 +6,7 @@ import AnimatedHeadline from "./AnimatedHeadline";
 const projects = [
   {
     title: "Python Music Visualizer",
-    desc: "An advanced Music Visualizer with audio-driven visuals (FFT, canvas) — dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn. Also Dont forget to try BeatSaber :)",
+    desc: "An advanced Music Visualizer with audio-driven visuals (FFT, canvas), dynamic patterns reacting to sound. Built with Streamlit and integrated with JioSaavn. Also Dont forget to try BeatSaber :)",
     img: "/assets/projects/music-visualizer.JPG",
     github: "https://github.com/NilamXSC/Music-visualizer",
     live: "https://music-visualizer-hxuorbfc6jxffrzaujna37.streamlit.app",
