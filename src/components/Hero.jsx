@@ -1,10 +1,8 @@
-// src/components/Hero.jsx
 import React from "react";
 import PhotoCard from "./PhotoCard";
 import AnimatedButton from "./AnimatedButton";
 import AnimatedHeadline from "./AnimatedHeadline";
 
-/* Import assets from src so Vite bundles them */
 import profileImg from "../assets/profile.jpg";
 import githubIcon from "../assets/social/github.svg";
 import linkedinIcon from "../assets/social/linkedin.svg";
@@ -14,7 +12,7 @@ import mailIcon from "../assets/social/mail.svg";
 import leetcodeIcon from "../assets/social/leetcode.svg";
 
 export default function Hero() {
-  // Scroll helper with offset to avoid fixed header overlap
+  // Scroll helper is added here
   const scrollToId = (id, offset = 84) => {
     const el = document.getElementById(id);
     if (!el) {
@@ -199,27 +197,26 @@ export default function Hero() {
       `}</style>
 
       <div className="hero-left">
-        {/* logo + heading removed as requested */}
+        
 
-        {/* Animated headline — three separate lines to keep them stable and exact */}
-        {/* NOTE: left aligned on desktop (align-items:flex-start), centered on mobile via media query */}
+        
         <div className="hero-headline" aria-hidden>
           <AnimatedHeadline text={"Hi, Nilam Here,"} />
           <AnimatedHeadline text={"Welcoming You To My"} />
           <AnimatedHeadline text={"Portfolio"} />
         </div>
 
-        {/* visible gap before the intro */}
+      
         <div style={{ height: 12 }} aria-hidden />
 
         <p className="lead" style={{ maxWidth: 820, margin: "8px 0 0", textAlign: "left" }}>
           I’m a MERN Fullstack & Python Dev, Passionate about Cloud DevOps with interest in ML/DL & Gen AI.
         </p>
 
-        {/* visible gap between intro and buttons */}
+      
         <div style={{ height: 12 }} aria-hidden />
 
-        {/* CTA row */}
+       
         <div className="cta-row" style={{ marginTop: 18 }}>
           <AnimatedButton variant="flame" onClick={() => scrollToId("about")}>About Me</AnimatedButton>
           <AnimatedButton variant="rain" onClick={() => scrollToId("projects")}>Projects</AnimatedButton>
@@ -227,10 +224,10 @@ export default function Hero() {
           <AnimatedButton variant="glass" onClick={() => scrollToId("contact")}>Contact</AnimatedButton>
         </div>
 
-        {/* small gap between buttons and icons */}
+        
         <div style={{ height: 8 }} aria-hidden />
 
-        {/* SOCIAL ICONS: GitHub, LinkedIn, Instagram, YouTube, Email, LeetCode */}
+      
         <div className="connect-icons" role="navigation" aria-label="social links">
           <a className="connect-icon ci-github" href="https://github.com/NilamXSC" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
             <img src={githubIcon} alt="GitHub" onError={(e)=> e.currentTarget.style.display='none'} />
