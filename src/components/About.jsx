@@ -80,15 +80,15 @@ export default function About() {
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
-                My practice lies at the crossroads of AI, cloud infrastructure, and intelligent automation to develop tools that make technology more human-centered. From developing real-time messaging apps and predictive AI models to designing privacy-first, production-grade systems, I thrive on solving complex problems with precision and creativity.
+                My practice lies at the crossroads of FullStack Development, cloud infrastructure, and intelligent automation to develop tools that make technology more human-centered. From developing real-time messaging apps and predictive AI models to designing privacy-first, production-grade systems, I try to solve complex problems with precision and creativity.
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
-                Beyond coding, I am interested in DevOps and cloud deployment-continuously improving workflows through containerization, CI/CD pipelines, and optimized cloud environments. Every project I make further cements my belief that technology, when built thoughtfully, has the potential to empower people and inspire meaningful change.
+                Beyond coding, I am interested in DevOps and cloud deployment-continuously improving workflows through containerization, CI/CD pipelines, and optimized cloud environments.
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
-                I'm always learning, iterating, and collaborating, pushing boundaries to build systems that don't just function but leave a lasting impression.
+                I'm always learning, iterating, and collaborating to build systems that don't just function but leave a lasting impression to the user.
               </p>
 
               
