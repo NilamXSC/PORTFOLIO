@@ -5,6 +5,8 @@ import { motion, useReducedMotion } from "framer-motion";
 /**
  * TechStack - 3-ring solar-system style orbiting icons around a central "Tech Stack" bubble.
  * Updated: stronger, more visible bubbles and Vite-safe SVG loading (import.meta.url).
+ * Mobile behavior: on small screens the orbit animations are disabled and rings are hidden;
+ * only a smaller center bubble is shown to prevent horizontal sliding/overflow.
  */
 
 const INNER = ["react", "nodedotjs", "vite", "tailwindcss", "prisma", "postgresql"];
@@ -56,6 +58,7 @@ export default function TechStack() {
           position:relative;
           display:grid;
           place-items:center;
+          overflow: visible; /* keep visible by default */
         }
 
         .orbit { position:absolute; inset:0; display:block; transform-origin:center; }
@@ -137,10 +140,52 @@ export default function TechStack() {
           .orb-item { transition: none !important; transform: none !important; }
         }
 
-        @media (max-width: 880px) {
-          .center-bubble { width: 150px; height: 150px; }
-          .orb-item { width: ${iconSizeMobile}px; height: ${iconSizeMobile}px; margin-left: calc(-${iconSizeMobile/2}px); margin-top: calc(-${iconSizeMobile/2}px); }
-          .orbit-wrap { width: ${outerRadiusMobile * 2 + iconSizeMobile}px; height: ${outerRadiusMobile * 2 + iconSizeMobile}px; }
+        /* -----------------------
+           MOBILE / SMALL SCREENS
+           - hide orbit rings and items
+           - stop animations
+           - shrink the orbit-wrap and center bubble
+           - prevent horizontal overflow / sliding
+           ----------------------- */
+        @media (max-width: 720px) {
+          .orbit { 
+            display: none !important;         /* hide rotating rings entirely */
+            animation: none !important;       /* extra safety to stop any animation */
+          }
+          .orb-item { display: none !important; } /* safety: hide any absolutely positioned items */
+
+          /* shrink the orbit-wrap to a compact box centered in flow */
+          .orbit-wrap {
+            width: min(280px, 86vw) !important;
+            height: min(280px, 86vw) !important;
+            overflow: hidden !important; /* prevent overflow/slide */
+            position: relative !important;
+            margin: 0 auto;
+          }
+
+          /* show only a smaller center bubble (no animation) */
+          .center-bubble {
+            width: 120px !important;
+            height: 120px !important;
+            box-shadow: 0 18px 50px rgba(30,111,235,0.08);
+            background: linear-gradient(180deg, rgba(40,140,255,0.28), rgba(3,200,150,0.08));
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(3px);
+          }
+          .center-bubble .label { font-size: 1rem !important; padding: 6px; }
+
+          /* ensure the section doesn't create horizontal scroll */
+          section#tech { overflow-x: hidden; }
+
+          /* disable animation-related transforms on the center bubble */
+          .center-bubble { transform: none !important; transition: none !important; }
+        }
+
+        @media (max-width: 420px) {
+          /* even smaller center on tiny phones */
+          .orbit-wrap { width: min(240px, 86vw) !important; height: min(240px, 86vw) !important; }
+          .center-bubble { width: 100px !important; height: 100px !important; }
+          .center-bubble .label { font-size: 0.95rem !important; }
         }
       `}</style>
 
