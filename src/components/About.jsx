@@ -1,4 +1,3 @@
-// src/components/About.jsx
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import AnimatedHeadline from "./AnimatedHeadline";
@@ -77,94 +76,39 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
             >
               <p className="text-base md:text-lg leading-relaxed text-[var(--text)]">
-                I’m <strong className="text-[var(--accent)]">Nilam Chakraborty</strong>, a
-                Full-Stack Developer and Computer Science & Engineering student from India,
-                driven by a passion for building scalable, impactful, and user-focused digital
-                solutions. Specializing in the <strong>MERN stack</strong>, I bridge the gap
-                between intuitive design and robust backend architecture to deliver seamless,
-                high-performance web applications.
+                Hello, I am Nilam Chakraborty, a Full-Stack Developer and a student in Computer Science & Engineering from India. With a passion for building impact-driven, user-centric scalable digital solutions, I work with the MERN stack to bridge the gap between intuitive design and robust backend architecture, hence delivering seamless, high-performance web applications.
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
-                My work explores the intersection of <strong>AI, cloud infrastructure, and
-                intelligent automation</strong>, crafting tools that make technology more
-                human-centric. From developing <em>real-time messaging apps</em> and
-                <em> predictive AI models</em> to designing privacy-first, production-grade
-                systems, I thrive on solving complex problems with precision and creativity.
+                My practice lies at the crossroads of AI, cloud infrastructure, and intelligent automation to develop tools that make technology more human-centered. From developing real-time messaging apps and predictive AI models to designing privacy-first, production-grade systems, I thrive on solving complex problems with precision and creativity.
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
-                Beyond coding, I’m invested in <strong>DevOps and cloud deployment</strong>,
-                continuously refining workflows through containerization, CI/CD pipelines, and
-                optimized cloud environments. Each project I create strengthens my belief that
-                technology, when built thoughtfully, can empower people and inspire meaningful
-                change.
+                Beyond coding, I am interested in DevOps and cloud deployment-continuously improving workflows through containerization, CI/CD pipelines, and optimized cloud environments. Every project I make further cements my belief that technology, when built thoughtfully, has the potential to empower people and inspire meaningful change.
               </p>
 
               <p className="mt-4 text-base md:text-lg leading-relaxed text-[var(--text)]">
-                I’m always learning, iterating, and collaborating,pushing boundaries to build
-                systems that don’t just function but <strong>leave a lasting impression</strong>.
+                I'm always learning, iterating, and collaborating, pushing boundaries to build systems that don't just function but leave a lasting impression. Selected Highlights
               </p>
 
-              {/* Core Skills Section */}
-              <div className="mt-10">
-                <h3 className="text-2xl font-semibold text-[var(--text)] mb-4">
-                  Core Skills
-                </h3>
-                <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-3">
-                  {[
-                    "React + Vite \u00A0",
-                    "Node.js / Fastify \u00A0",
-                    "Socket.IO (Real-time) \u00A0",
-                    "Prisma + PostgreSQL \u00A0",
-                    "MERN Stack \u00A0",
-                    "Docker / CI-CD \u00A0",
-                    "Render & Vercel \u00A0",
-                    "Zustand & React Query \u00A0",
-                    "ML/DL & GenAI \u00A0",
-                    "Security & Privacy",
-                  ].map((s) => (
-                    <span
-                      key={s}
-                      className="inline-block px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-slate-100 hover:bg-[var(--accent)]/20 hover:scale-105 transition-all duration-200"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <ul className="list-disc list-inside text-base md:text-lg leading-relaxed text-[var(--muted)] space-y-2 mt-4">
+                <li>
+                  Designed and deployed a privacy-first real-time chat app by implementing IP masking and no hardware storage using Fastify + Socket.IO, Prisma + Postgres, hosted on Render & Vercel.
+                </li>
+                <li>
+                  Worked on "AirRakshak 5G" project by Amantya Technologies on "Deepening Of Scientific Research On 5G Use Cases".
+                </li>
+                <li>
+                  Participated in NER Hackathon & GDG DevFest; prototyped AI-powered solutions for healthcare and low-latency 5G use-cases.
+                </li>
+                <li>
+                  Worked as an intern with Assam Sale Tax Department, Kar Bhawan, in the development of a real-time data visualization dashboard on tax analytics based on React and Chart.js.
+                </li>
+              </ul>
 
-              {/* Highlights */}
-              <div className="mt-10">
-                <h3 className="text-2xl font-semibold text-[var(--text)] mb-3">
-                  Selected Highlights
-                </h3>
-                <ul className="list-disc list-inside text-base md:text-lg leading-relaxed text-[var(--muted)] space-y-2">
-                  <li>
-                    Designed and deployed a privacy-first real-time chat app (IP masking, no
-                    hardware storage) using Fastify + Socket.IO, Prisma + Postgres, and hosted on
-                    Render & Vercel.
-                  </li>
-                  <li>
-                    Worked On "AirRakshak 5G" Project by Amantya Technologies on "Deepening Of Scientific Research On 5G Use Cases"
-                  </li>
-                  <li>
-                    Participated in NER Hackathon & GDG DevFest, prototyped AI-powered solutions
-                    for healthcare and low-latency 5G use-cases.
-                  </li>
-                  <li>
-                    Worked as a intern at Assam Sale Tax Department (Kar Bhawan) on developing a real time data visualization dashboard for tax analytics using React and Chart.js.
-                  </li>
-                </ul>
-              </div>
-
-              <div className="mt-10">
-                <p className="text-sm md:text-base text-[var(--muted)] max-w-2xl leading-relaxed">
-                  I enjoy mentoring, collaborating on open-source projects, and turning complex
-                  ideas into simple, delightful user experiences. If you'd like to collaborate or
-                  review my code, feel free to reach out.
-                </p>
-              </div>
+              <p className="mt-10 text-sm md:text-base text-[var(--muted)] max-w-2xl leading-relaxed">
+                I also enjoy mentoring, collaborating on open-source projects, and crafting delightfully simple user experiences out of complex ideas. If you'd like to collaborate or review my code, please feel free to get in touch.
+              </p>
             </motion.div>
           </motion.div>
         </div>
