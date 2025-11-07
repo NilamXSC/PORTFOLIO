@@ -1200,3 +1200,46 @@ body {
     pointer-events: none !important;
   }
 }
+/* Sidebar failsafe styles */
+.sidebar {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  contain: paint;
+}
+.sidebar [style] { /* prefer inline style but ensure visibility */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-transform: translate3d(0,0,0);
+}
+
+/* Ensure large text doesn't overflow the sidebar width; clip with ellipsis if too long */
+.sidebar div[aria-hidden] {
+  max-width: calc(100% - 12px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mobile header tweak */
+@media (max-width: 768px) {
+  header.md\\:hidden {
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+}
+/* index.css - append at bottom */
+.marquee-viewport {
+  -webkit-overflow-scrolling: touch;
+}
+
+.marquee-track,
+.marquee-seq {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.services-card img {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  image-rendering: auto;
+  display: block;
+}
