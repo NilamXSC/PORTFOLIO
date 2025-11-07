@@ -1,8 +1,9 @@
 // src/components/Hero.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PhotoCard from "./PhotoCard";
 import AnimatedButton from "./AnimatedButton";
 import AnimatedHeadline from "./AnimatedHeadline";
+import HeroMobile from "./HeroMobile";
 
 import profileImg from "../assets/profile.jpg";
 import githubIcon from "../assets/social/github.svg";
@@ -13,6 +14,20 @@ import mailIcon from "../assets/social/mail.svg";
 import leetcodeIcon from "../assets/social/leetcode.svg";
 
 export default function Hero() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function check() {
+      setIsMobile(typeof window !== "undefined" ? window.innerWidth <= 720 : false);
+    }
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // If small screen, render the mobile hero (HeroMobile has its own scroll helper + layout)
+  if (isMobile) return <HeroMobile />;
+
   // Scroll helper is added here
   const scrollToId = (id, offset = 84) => {
     const el = document.getElementById(id);
