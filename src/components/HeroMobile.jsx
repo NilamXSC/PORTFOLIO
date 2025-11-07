@@ -157,6 +157,14 @@ export default function HeroMobile() {
       <div className="mobile-cta" role="navigation" aria-label="Primary actions">
         <AnimatedButton className="btn" variant="flame" onClick={() => scrollToId("about")}>About Me</AnimatedButton>
         <AnimatedButton className="btn" variant="rain" onClick={() => scrollToId("projects")}>Projects</AnimatedButton>
+        <AnimatedButton
+          className="btn"
+          variant="sun"
+          onClick={() => scrollToId("services")}
+          style={{ width: "min(86%, 380px)" }}
+        >
+          Services
+        </AnimatedButton>
         <AnimatedButton className="btn" variant="nature" onClick={() => scrollToId("tech")}>Tech Stack</AnimatedButton>
         <AnimatedButton className="btn" variant="glass" onClick={() => scrollToId("contact")}>Contact</AnimatedButton>
       </div>
@@ -165,7 +173,7 @@ export default function HeroMobile() {
         <a className="mobile-social" href="https://github.com/NilamXSC" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
           <img src={githubIcon} alt="GitHub" onError={(e) => (e.currentTarget.style.display = "none")} />
         </a>
-        <a className="mobile-social" href="https://www.linkedin.com/in/chakrabortynilam9/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <a className="mobile-social" href="https://www.linkedin.com/in/chakrabortynil9/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
           <img src={linkedinIcon} alt="LinkedIn" onError={(e) => (e.currentTarget.style.display = "none")} />
         </a>
         <a className="mobile-social" href="https://www.instagram.com/nilam.jackdaw7" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
@@ -174,7 +182,7 @@ export default function HeroMobile() {
         <a className="mobile-social" href="https://www.youtube.com/@raidenxd7482" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
           <img src={youtubeIcon} alt="YouTube" onError={(e) => (e.currentTarget.style.display = "none")} />
         </a>
-        <a className="mobile-social" href="mailto:chakrabortynilam88@gmail.com" aria-label="Email">
+        <a className="mobile-social" href="mailto:chakrabortynil88@gmail.com" aria-label="Email">
           <img src={mailIcon} alt="Email" onError={(e) => (e.currentTarget.style.display = "none")} />
         </a>
         <a className="mobile-social" href="https://leetcode.com/u/nilamxsc/" target="_blank" rel="noopener noreferrer" aria-label="LeetCode">
