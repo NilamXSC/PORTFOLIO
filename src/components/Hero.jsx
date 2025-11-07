@@ -1,3 +1,4 @@
+// src/components/Hero.jsx
 import React from "react";
 import PhotoCard from "./PhotoCard";
 import AnimatedButton from "./AnimatedButton";
@@ -199,7 +200,7 @@ export default function Hero() {
       <div className="hero-left">
         
 
-        
+
         <div className="hero-headline" aria-hidden>
           <AnimatedHeadline text={"Hi, Nilam Here,"} />
           <AnimatedHeadline text={"Welcoming You To My"} />
@@ -220,6 +221,7 @@ export default function Hero() {
         <div className="cta-row" style={{ marginTop: 18 }}>
           <AnimatedButton variant="flame" onClick={() => scrollToId("about")}>About Me</AnimatedButton>
           <AnimatedButton variant="rain" onClick={() => scrollToId("projects")}>Projects</AnimatedButton>
+          <AnimatedButton variant="sun" onClick={() => scrollToId("services")}>Services</AnimatedButton>
           <AnimatedButton variant="nature" onClick={() => scrollToId("tech")}>Tech Stack</AnimatedButton>
           <AnimatedButton variant="glass" onClick={() => scrollToId("contact")}>Contact</AnimatedButton>
         </div>
@@ -233,7 +235,7 @@ export default function Hero() {
             <img src={githubIcon} alt="GitHub" onError={(e)=> e.currentTarget.style.display='none'} />
           </a>
 
-          <a className="connect-icon ci-linkedin" href="https://www.linkedin.com/in/chakrabortynilam9/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+          <a className="connect-icon ci-linkedin" href="https://www.linkedin.com/in/chakrabortynil9/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
             <img src={linkedinIcon} alt="LinkedIn" onError={(e)=> e.currentTarget.style.display='none'} />
           </a>
 
