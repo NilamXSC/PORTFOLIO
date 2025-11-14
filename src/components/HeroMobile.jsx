@@ -182,7 +182,7 @@ export default function HeroMobile() {
         <a className="mobile-social" href="https://www.youtube.com/@raidenxd7482" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
           <img src={youtubeIcon} alt="YouTube" onError={(e) => (e.currentTarget.style.display = "none")} />
         </a>
-        <a className="mobile-social" href="mailto:chakrabortynil88@gmail.com" aria-label="Email">
+        <a className="mobile-social" href="mailto:chakrabortynilam88@gmail.com" aria-label="Email">
           <img src={mailIcon} alt="Email" onError={(e) => (e.currentTarget.style.display = "none")} />
         </a>
         <a className="mobile-social" href="https://leetcode.com/u/nilamxsc/" target="_blank" rel="noopener noreferrer" aria-label="LeetCode">
