@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 /**
  * AnimatedHeadline
  * Props:
- *  - className: optional classes applied to the H1
  *  - triggerOnView: whether to start animation when element scrolls into view (default: true)
  */
 export default function AnimatedHeadline({ text = "", className = "", triggerOnView = true }) {
