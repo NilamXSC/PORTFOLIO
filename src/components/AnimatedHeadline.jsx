@@ -2,9 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 /**
- * AnimatedHeadline
- * Props:
- *  - triggerOnView: whether to start animation when element scrolls into view (default: true)
+ 
  */
 export default function AnimatedHeadline({ text = "", className = "", triggerOnView = true }) {
   const containerRef = useRef(null);
